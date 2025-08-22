@@ -1,0 +1,244 @@
+.signin-container {
+  min-height: calc(100vh - 72px);
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.signin-card {
+  width: 100%;
+  max-width: 900px;
+  height: 600px;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+  background: white;
+  display: flex;
+  border: none;
+}
+
+/* Left Panel */
+.signin-left {
+  flex: 1;
+  padding: 60px 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background: white;
+}
+
+.signin-header {
+  margin-bottom: 40px;
+  text-align: left;
+
+  h2 {
+    color: #1a1a1a;
+    font-weight: 700;
+    font-size: 32px;
+    margin: 0;
+  }
+
+  p {
+    color: #666;
+    font-size: 14px;
+    margin-top: 8px;
+  }
+}
+
+.signin-form {
+  .form-group {
+    margin-bottom: 24px;
+
+    label {
+      display: block;
+      color: #333;
+      font-weight: 500;
+      font-size: 14px;
+      margin-bottom: 8px;
+    }
+
+    .input-wrapper {
+      position: relative;
+
+      .input-icon {
+        position: absolute;
+        left: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #999;
+        z-index: 1;
+      }
+
+      input {
+        width: 100%;
+        height: 50px;
+        border-radius: 8px;
+        border: 1px solid #e0e0e0;
+        font-size: 14px;
+        padding-left: 45px;
+        padding-right: 45px;
+        outline: none;
+        transition: all 0.3s ease;
+
+        &.error {
+          border: 1px solid #ff4d4f;
+        }
+      }
+
+      .toggle-password {
+        position: absolute;
+        right: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        background: none;
+        border: none;
+        cursor: pointer;
+        color: #999;
+      }
+    }
+
+    .error-text {
+      color: #ff4d4f;
+      font-size: 12px;
+      margin-top: 4px;
+    }
+  }
+
+  .forgot {
+    text-align: right;
+    margin-bottom: 20px;
+
+    a {
+      color: #6c5ce7;
+      font-size: 14px;
+      text-decoration: none;
+    }
+  }
+
+  .submit-btn {
+    width: 100%;
+    height: 50px;
+    background: #6c5ce7;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 500;
+    margin-top: 10px;
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    &:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+    }
+  }
+
+  .signup {
+    text-align: center;
+    margin-top: 20px;
+
+    span {
+      color: #666;
+    }
+
+    a {
+      color: #6c5ce7;
+      font-weight: 500;
+      text-decoration: none;
+    }
+  }
+}
+
+/* Right Panel */
+.signin-right {
+  flex: 1;
+  background: linear-gradient(135deg, #6c5ce7 0%, #a855f7 100%);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+
+  .branding {
+    text-align: center;
+    position: relative;
+    z-index: 2;
+
+    .logo-wrapper {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 20px;
+      animation: float 3s ease-in-out infinite;
+
+      .logo {
+        width: 60px;
+        height: 60px;
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 2px solid rgba(255, 255, 255, 0.3);
+      }
+    }
+  }
+
+  .decor-circle {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    animation: float 6s ease-in-out infinite;
+
+    &.circle1 {
+      top: 10%;
+      right: 10%;
+      width: 150px;
+      height: 150px;
+    }
+
+    &.circle2 {
+      bottom: 20%;
+      left: 15%;
+      width: 100px;
+      height: 100px;
+      animation-delay: -3s;
+    }
+
+    &.circle3 {
+      top: 60%;
+      right: 20%;
+      width: 80px;
+      height: 80px;
+      animation-delay: -2s;
+    }
+  }
+
+  .overlay {
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(circle at 25% 25%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 75% 75%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+    opacity: 0.5;
+  }
+}
+
+/* Animations */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-20px) rotate(10deg);
+  }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .signin-card {
+    flex-direction: column;
+    height: auto;
+  }
+}
