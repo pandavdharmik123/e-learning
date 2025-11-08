@@ -1,0 +1,110 @@
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  admin
+  teacher
+  student
+}
+
+enum ClassStatus {
+  scheduled
+  completed
+  cancelled
+}
+
+enum ContentType {
+  book
+  note
+  assignment
+}
+
+enum AccessLevel {
+  all_students
+  specific_enrollment
+}
+
+model User {
+  user_id        Int       @id @default(autoincrement())
+  email          String    @unique
+  password_hash  String
+  role           Role
+  first_name     String?
+  last_name      String?
+  phone_number   String?
+  profile_picture String?
+  is_verified    Boolean   @default(false)
+  created_at     DateTime  @default(now())
+  updated_at     DateTime  @updatedAt
+  is_deleted     Boolean   @default(false)
+
+  teacher        Teacher?
+  student        Student?
+}
+
+model Teacher {
+  teacher_id       Int     @id
+  subjects         Json?
+  language         Json?
+  qualifications   String?
+  experience_years Int? 
+  hourly_rate      Decimal? @db.Decimal(10,2)
+  monthly_rate     Decimal? @db.Decimal(10,2)
+  bio              String?
+  rating_average   Float? 
+  total_students   Int?     @default(0)
+  is_approved      Boolean  @default(false)
+  hired_by_students Json?
+
+  user   User   @relation(fields: [teacher_id], references: [user_id], onDelete: Cascade)
+  classes Class[]
+  contents Content[]
+}
+
+model Student {
+  student_id          Int   @id
+  grade_level         String?
+  subjects_interested Json?
+  learning_goals      String?
+  parent_contact      String?
+  language            Json?
+
+  user   User   @relation(fields: [student_id], references: [user_id], onDelete: Cascade)
+}
+
+model Class {
+  class_id      Int        @id @default(autoincrement())
+  teacher_id    Int
+  // student_id    Int
+  title         String
+  description   String?
+  scheduled_time DateTime
+  duration      Int?
+  zoom_link     String?
+  status        ClassStatus @default(scheduled)
+  recording_url String?
+  student_ids    Json        @default("[]")
+
+  teacher Teacher @relation(fields: [teacher_id], references: [teacher_id], onDelete: Cascade)
+  // student Student @relation(fields: [student_id], references: [student_id], onDelete: Cascade)
+}
+
+model Content {
+  content_id   Int        @id @default(autoincrement())
+  teacher_id   Int
+  title        String
+  description  String?
+  file_url     String
+  content_type ContentType
+  access_level AccessLevel
+  upload_date  DateTime   @default(now())
+
+  teacher Teacher @relation(fields: [teacher_id], references: [teacher_id], onDelete: Cascade)
+}

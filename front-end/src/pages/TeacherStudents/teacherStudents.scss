@@ -1,0 +1,630 @@
+
+$primary-color: #6366f1;
+$secondary-color: #2c3e50;
+$light-gray: #f5f5f5;
+$medium-gray: #d9d9d9;
+$dark-gray: #666;
+$text-color: #2c3e50;
+$white: #ffffff;
+$border-radius: 12px;
+$card-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+$hover-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+$transition: all 0.3s ease;
+
+
+$math-color: #4285f4;
+$physics-color: #9c27b0;
+
+.student-management-page {
+  padding: 12px;
+  background-color: $light-gray;
+  min-height: 100vh;
+
+  .page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 18px;
+
+    .page-title {
+      margin: 0;
+      font-weight: 600;
+      color: $text-color;
+      font-size: 24px;
+    }
+
+    .header-controls {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+
+      .search-input {
+        width: 280px;
+
+        //.ant-input {
+
+
+
+
+
+
+        //
+
+
+
+        //
+
+
+
+        //
+
+
+
+
+        //}
+
+        .ant-input-prefix {
+          color: #999;
+          left: 12px;
+        }
+      }
+
+      .subject-filter {
+        width: 120px;
+
+        .ant-select-selector {
+          height: 40px !important;
+          border-radius: 6px !important;
+          //border: 1px solid $medium-gray !important;
+          display: flex !important;
+          align-items: center !important;
+          font-size: 14px;
+          transition: $transition;
+
+          .ant-select-selection-item {
+            color: $dark-gray;
+            font-weight: 500;
+          }
+        }
+
+        &:hover .ant-select-selector {
+          //border-color: $primary-color !important;
+        }
+
+        &.ant-select-focused .ant-select-selector {
+          //border-color: $primary-color !important;
+          box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.1) !important;
+        }
+
+        .ant-select-arrow {
+          color: #999;
+        }
+      }
+
+      .date-button {
+        background-color: $primary-color;
+        border-color: $primary-color;
+        border-radius: 6px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-weight: 500;
+        font-size: 14px;
+        padding: 0 16px;
+        transition: $transition;
+
+        &:hover {
+          background-color: darken($primary-color, 8%);
+          border-color: darken($primary-color, 8%);
+          transform: translateY(-1px);
+        }
+
+        .anticon {
+          font-size: 14px;
+        }
+      }
+    }
+  }
+
+  .student-card {
+    background: $white;
+    border-radius: $border-radius;
+    box-shadow: $card-shadow;
+    transition: $transition;
+    height: 100%;
+    border: none;
+    overflow: hidden;
+
+    &:hover {
+      box-shadow: $hover-shadow;
+      transform: translateY(-2px);
+    }
+
+    .ant-card-body {
+      padding: 20px;
+    }
+
+    .student-info {
+      flex-direction: column;
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+
+      .student-avatar {
+        flex-shrink: 0;
+        border: 2px solid #f0f0f0;
+        background-color: #f8f9fa;
+
+        .anticon {
+          color: $dark-gray;
+          font-size: 24px;
+        }
+
+        img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+      }
+
+      .student-details {
+        flex: 1;
+        min-width: 0;
+        text-align: left;
+
+        .student-name {
+          margin: 0 0 4px 0 !important;
+          font-size: 16px !important;
+          font-weight: 600 !important;
+          color: $text-color !important;
+          line-height: 1.3 !important;
+        }
+
+        .student-email {
+          display: block;
+          color: $dark-gray;
+          font-size: 13px;
+          margin-bottom: 2px;
+          line-height: 1.4;
+        }
+
+        .student-phone {
+          display: block;
+          color: $dark-gray;
+          font-size: 13px;
+          margin-bottom: 12px;
+          line-height: 1.4;
+        }
+
+        .subject-tags {
+          margin-bottom: 12px;
+          display: flex;
+          gap: 6px;
+          flex-wrap: wrap;
+
+          .subject-tag {
+            border: none;
+            border-radius: 12px;
+            font-size: 11px;
+            padding: 2px 8px;
+            font-weight: 500;
+            line-height: 1.4;
+            margin: 0;
+
+            &.math {
+              background-color: $math-color;
+              color: $white;
+            }
+
+            &.physics {
+              background-color: $physics-color;
+              color: $white;
+            }
+          }
+        }
+
+        .join-date {
+          color: #999;
+          font-size: 12px;
+          line-height: 1.4;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 1200px) {
+  .student-management-page {
+    .page-header {
+      .header-controls {
+        .search-input {
+          width: 240px;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 992px) {
+  .student-management-page {
+    .page-header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 12px;
+
+      .header-controls {
+        width: 100%;
+        justify-content: flex-start;
+        flex-wrap: wrap;
+        gap: 12px;
+
+        .search-input {
+          flex: 1;
+          min-width: 200px;
+        }
+
+        .subject-filter {
+          width: 120px;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .student-management-page {
+    padding: 16px;
+
+    .page-header {
+      margin-bottom: 24px;
+
+      .page-title {
+        font-size: 20px;
+      }
+
+      .header-controls {
+        gap: 12px;
+
+        .search-input {
+          width: 100%;
+        }
+
+        .subject-filter {
+          flex: 1;
+          min-width: 100px;
+        }
+
+        .date-button {
+          flex: 1;
+          justify-content: center;
+          min-width: 80px;
+        }
+      }
+    }
+
+    .students-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .student-card {
+      .ant-card-body {
+        padding: 16px;
+      }
+
+      .student-info {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 12px;
+
+        .student-details {
+          width: 100%;
+
+          .subject-tags {
+            justify-content: center;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 576px) {
+  .student-management-page {
+    .page-header {
+      .header-controls {
+        flex-direction: column;
+        width: 100%;
+
+        .search-input,
+        .subject-filter,
+        .date-button {
+          width: 100%;
+        }
+      }
+    }
+  }
+}
+
+.student-card {
+  animation: cardSlideIn 0.3s ease-out;
+}
+
+@keyframes cardSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.student-management-page {
+  .subject-filter.ant-select-focused .ant-select-selector,
+  .date-button:focus-visible {
+    //outline: 2px solid $primary-color;
+    outline-offset: 2px;
+  }
+}
+
+// Empty Students State Styles
+.empty-students-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 20px;
+  min-height: 400px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+
+  // Icon Wrapper with floating animation
+  .icon-wrapper {
+    position: relative;
+    margin-bottom: 24px;
+    animation: float 3s ease-in-out infinite;
+
+    .main-icon-circle {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 10px 40px rgba(67, 233, 123, 0.35);
+
+      .user-add-icon {
+        font-size: 56px;
+        color: white;
+      }
+    }
+
+    // Floating book icon
+    .floating-book {
+      position: absolute;
+      top: -10px;
+      right: -10px;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: #fa709a;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 12px rgba(250, 112, 154, 0.4);
+      animation: pulse 2s ease-in-out infinite;
+
+      .book-icon {
+        font-size: 20px;
+        color: #fff;
+      }
+    }
+  }
+
+  // Text Content
+  .empty-title {
+    font-size: 28px;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin-bottom: 12px;
+    letter-spacing: -0.5px;
+  }
+
+  .empty-description {
+    font-size: 16px;
+    color: #666;
+    max-width: 440px;
+    line-height: 1.6;
+    margin-bottom: 32px;
+  }
+
+  // Add Button
+  .add-student-btn {
+    height: 48px;
+    padding: 0 32px;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 8px;
+    background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+    border: none;
+    box-shadow: 0 4px 16px rgba(67, 233, 123, 0.4);
+    transition: all 0.3s ease;
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(67, 233, 123, 0.5);
+      background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+    }
+
+    &:active {
+      transform: translateY(0);
+    }
+  }
+
+  // Decorative Background Blobs
+  .decorative-blob {
+    position: absolute;
+    z-index: -1;
+
+    &.blob-1 {
+      top: 20%;
+      left: 10%;
+      width: 100px;
+      height: 100px;
+      border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+      background: linear-gradient(135deg, rgba(67, 233, 123, 0.12) 0%, rgba(56, 249, 215, 0.12) 100%);
+      animation: morph 8s ease-in-out infinite;
+    }
+
+    &.blob-2 {
+      bottom: 20%;
+      right: 15%;
+      width: 80px;
+      height: 80px;
+      border-radius: 70% 30% 30% 70% / 70% 70% 30% 30%;
+      background: linear-gradient(135deg, rgba(250, 112, 154, 0.15) 0%, rgba(254, 140, 0, 0.15) 100%);
+      animation: morph 6s ease-in-out infinite;
+    }
+  }
+}
+
+// Animations
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+}
+
+@keyframes morph {
+  0%, 100% {
+    border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+  }
+  25% {
+    border-radius: 58% 42% 75% 25% / 76% 46% 54% 24%;
+  }
+  50% {
+    border-radius: 50% 50% 33% 67% / 55% 27% 73% 45%;
+  }
+  75% {
+    border-radius: 33% 67% 58% 42% / 63% 68% 32% 37%;
+  }
+}
+
+// Responsive Design
+@media (max-width: 768px) {
+  .empty-students-container {
+    padding: 60px 20px;
+
+    .icon-wrapper {
+      .main-icon-circle {
+        width: 100px;
+        height: 100px;
+
+        .user-add-icon {
+          font-size: 48px;
+        }
+      }
+
+      .floating-book {
+        width: 35px;
+        height: 35px;
+
+        .book-icon {
+          font-size: 18px;
+        }
+      }
+    }
+
+    .empty-title {
+      font-size: 24px;
+    }
+
+    .empty-description {
+      font-size: 14px;
+      max-width: 340px;
+    }
+
+    .add-student-btn {
+      height: 44px;
+      padding: 0 24px;
+      font-size: 15px;
+    }
+
+    .decorative-blob {
+      &.blob-1 {
+        width: 70px;
+        height: 70px;
+      }
+
+      &.blob-2 {
+        width: 60px;
+        height: 60px;
+      }
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .empty-students-container {
+    padding: 40px 16px;
+
+    .icon-wrapper {
+      margin-bottom: 20px;
+
+      .main-icon-circle {
+        width: 80px;
+        height: 80px;
+
+        .user-add-icon {
+          font-size: 40px;
+        }
+      }
+
+      .floating-book {
+        width: 30px;
+        height: 30px;
+        top: -8px;
+        right: -8px;
+
+        .book-icon {
+          font-size: 16px;
+        }
+      }
+    }
+
+    .empty-title {
+      font-size: 20px;
+      margin-bottom: 10px;
+    }
+
+    .empty-description {
+      font-size: 14px;
+      margin-bottom: 24px;
+    }
+
+    .add-student-btn {
+      width: 100%;
+      max-width: 280px;
+    }
+  }
+}

@@ -1,0 +1,476 @@
+
+$primary-color: #ff6b35;
+$secondary-color: #2c3e50;
+$light-gray: #f8f9fa;
+$medium-gray: #e9ecef;
+$dark-gray: #6c757d;
+$text-color: #2c3e50;
+$white: #ffffff;
+$success-color: #52c41a;
+$border-radius: 12px;
+$card-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+$hover-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+$transition: all 0.3s ease;
+
+.explore-teachers-page {
+  padding: 12px;
+  background: $light-gray;
+  min-height: 100vh;
+
+  .page-header {
+    text-align: center;
+    margin-bottom: 32px;
+
+    .page-title {
+      color: $text-color;
+      margin-bottom: 8px;
+      font-weight: 700;
+      background: linear-gradient(135deg, $primary-color 0%, #f7931e 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .page-subtitle {
+      color: $dark-gray;
+      font-size: 16px;
+    }
+  }
+
+  .filters-section {
+    background: $white;
+    padding: 24px;
+    border-radius: $border-radius;
+    box-shadow: $card-shadow;
+    margin-bottom: 32px;
+
+    .search-input {
+      .ant-input-prefix {
+        color: $dark-gray;
+      }
+    }
+
+    .filter-select {
+      width: 100%;
+
+      .ant-select-selector {
+        border: none !important;
+        //border-radius: 8px !important;
+        //padding: 4px 8px !important;
+        //height: 40px !important;
+        //transition: $transition;
+      }
+
+      &:hover .ant-select-selector {
+        border-color: transparent !important;
+      }
+
+      &.ant-select-focused .ant-select-selector {
+        border-color: transparent !important;
+        //box-shadow: 0 0 0 2px rgba(255, 107, 53, 0.1) !important;
+      }
+    }
+  }
+
+  .teachers-grid {
+    .loading-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 200px;
+
+      .ant-spin {
+        .ant-spin-dot-item {
+          background-color: $primary-color;
+        }
+      }
+    }
+
+    .empty-state {
+      margin: 64px 0;
+
+      .ant-empty-description {
+        color: $dark-gray;
+        font-size: 16px;
+      }
+    }
+  }
+}
+
+.teacher-card {
+  border-radius: $border-radius;
+  box-shadow: $card-shadow;
+  border: none;
+  overflow: hidden;
+  transition: $transition;
+  min-height: 270px;
+  height: 100%;
+
+  &:hover {
+    box-shadow: $hover-shadow;
+    transform: translateY(-4px);
+  }
+
+  .ant-card-cover {
+    padding: 0;
+  }
+
+  .ant-card-body {
+    padding: 12px 24px;
+  }
+
+  .card-header {
+    background: linear-gradient(135deg, $primary-color 0%, #f7931e 100%);
+    padding: 12px 18px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    color: $white;
+
+    .teacher-avatar {
+      border: 3px solid rgba(255, 255, 255, 0.3);
+      background: rgba(255, 255, 255, 0.2);
+      flex-shrink: 0;
+
+      .anticon {
+        color: $white;
+        font-size: 36px;
+      }
+    }
+
+    .teacher-basic-info {
+      flex: 1;
+
+      .teacher-name {
+        color: $white;
+        margin: 0 0 8px 0;
+        font-size: 18px;
+        font-weight: 600;
+      }
+
+      .rating-section {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 8px;
+
+        .teacher-rating {
+
+          display: inline-flex;
+          align-content: center;
+          .ant-rate-star {
+            font-size: 14px;
+
+            &.ant-rate-star-full .ant-rate-star-first {
+              color: #fadb14;
+            }
+          }
+        }
+
+        .rating-text {
+          color: rgba(255, 255, 255, 0.9);
+          font-size: 12px;
+        }
+      }
+
+      .verified-badge {
+        .ant-badge-count {
+          background: transparent;
+          box-shadow: none;
+          font-size: 16px;
+        }
+      }
+    }
+  }
+
+  .card-content {
+    .subjects-section,
+    .languages-section,
+    .qualifications-section,
+    .experience-section {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      margin-bottom: 16px;
+
+      .section-icon {
+        color: $primary-color;
+        font-size: 16px;
+        margin-top: 2px;
+        flex-shrink: 0;
+      }
+    }
+
+    .subjects-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+
+      .subject-tag {
+        margin: 0;
+        font-size: 11px;
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-weight: 500;
+      }
+    }
+
+    .languages-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+
+      .language-tag {
+        margin: 0;
+        background: lighten($primary-color, 35%);
+        color: $primary-color;
+        border: none;
+        font-size: 11px;
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-weight: 500;
+      }
+    }
+
+    .qualifications-text,
+    .experience-text {
+      color: $text-color;
+      font-size: 13px;
+      line-height: 1.4;
+      flex: 1;
+    }
+
+    .card-divider {
+      margin: 16px 0;
+      border-color: $medium-gray;
+    }
+
+    .bio-section {
+      margin-bottom: 16px;
+
+      .bio-text {
+        margin: 0;
+        color: $dark-gray;
+        font-size: 13px;
+        line-height: 1.5;
+      }
+    }
+
+    .pricing-section {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+      background: $light-gray;
+      padding: 12px;
+      border-radius: 8px;
+
+      .price-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+
+        .price-icon {
+          color: $success-color;
+          font-size: 14px;
+        }
+
+        .price-details {
+          display: flex;
+          flex-direction: column;
+
+          .price-label {
+            font-size: 11px;
+            color: $dark-gray;
+            line-height: 1;
+          }
+
+          .price-value {
+            font-size: 14px;
+            font-weight: 600;
+            color: $text-color;
+            line-height: 1.2;
+          }
+        }
+      }
+    }
+
+    .hire-btn {
+      background: linear-gradient(135deg, $primary-color 0%, #f7931e 100%);
+      border: none;
+      border-radius: 8px;
+      height: 44px;
+      font-weight: 600;
+      font-size: 14px;
+      box-shadow: 0 2px 8px rgba(255, 107, 53, 0.3);
+      transition: $transition;
+
+      &:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(255, 107, 53, 0.4);
+        background: linear-gradient(135deg, #f7931e 0%, $primary-color 100%);
+      }
+
+      &:active {
+        transform: translateY(0);
+      }
+
+      &.ant-btn-loading {
+        opacity: 0.8;
+      }
+    }
+  }
+}
+.ant-modal {
+  .hire-confirm-btn {
+    background: linear-gradient(135deg, $primary-color 0%, #f7931e 100%);
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+
+    &:hover {
+      background: linear-gradient(135deg, #f7931e 0%, $primary-color 100%);
+    }
+  }
+}
+
+
+@media (max-width: 1200px) {
+  .explore-teachers-page {
+    .teachers-grid {
+      .ant-col-xl-6 {
+        flex: 0 0 33.333333%;
+        max-width: 33.333333%;
+      }
+    }
+  }
+}
+
+@media (max-width: 992px) {
+  .explore-teachers-page {
+    .teachers-grid {
+      .ant-col-lg-8 {
+        flex: 0 0 50%;
+        max-width: 50%;
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .explore-teachers-page {
+    padding: 16px;
+
+    .page-header {
+      margin-bottom: 24px;
+
+      .page-title {
+        font-size: 24px;
+      }
+
+      .page-subtitle {
+        font-size: 14px;
+      }
+    }
+
+    .filters-section {
+      padding: 16px;
+
+      .ant-row {
+        .ant-col {
+          margin-bottom: 12px;
+
+          &:last-child {
+            margin-bottom: 0;
+          }
+        }
+      }
+    }
+
+    .teacher-card {
+      .card-header {
+        padding: 16px;
+        flex-direction: column;
+        text-align: center;
+        gap: 12px;
+
+        .teacher-basic-info {
+          .teacher-name {
+            font-size: 16px;
+          }
+        }
+      }
+
+      .card-content {
+        padding: 16px;
+
+        .pricing-section {
+          flex-direction: column;
+          gap: 8px;
+
+          .price-item {
+            justify-content: space-between;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 576px) {
+  .explore-teachers-page {
+    .teachers-grid {
+      .ant-col-sm-12 {
+        flex: 0 0 100%;
+        max-width: 100%;
+      }
+    }
+  }
+}
+
+
+.teacher-card {
+  animation: cardSlideIn 0.5s ease-out;
+}
+
+@keyframes cardSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+.ant-message {
+  .ant-message-success {
+    .anticon {
+      color: $success-color;
+    }
+  }
+
+  .ant-message-error {
+    .anticon {
+      color: $primary-color;
+    }
+  }
+}
+
+.ant-input-group-wrapper {
+  height: 42px !important;
+
+  .ant-input-wrapper {
+    height: 100%;
+    .ant-input-affix-wrapper {
+      height: 100% !important;
+
+
+    }
+    .ant-btn {
+      height: 100% !important;
+    }
+  }
+
+}

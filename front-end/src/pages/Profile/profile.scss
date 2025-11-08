@@ -1,0 +1,436 @@
+$text-color: #2c3e50;
+$light-gray: #f8f9fa;
+$success-color: #52c41a;
+$dark-gray: #6c757d;
+
+.profile-container {
+  min-height: 100vh;
+  background: #f8fafc;
+  padding: 12px;
+
+  .edit-btn {
+    background: #667eea;
+    border-color: #667eea;
+    border-radius: 8px;
+    font-weight: 500;
+
+    &:hover,
+    &:focus {
+      background: #5a6fd8;
+      border-color: #5a6fd8;
+    }
+  }
+  .profile-content {
+    max-width: 1200px;
+    //margin: 0 auto;
+  }
+
+  .profile-card {
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 24px;
+    border: none;
+
+    .ant-card-head {
+      border-bottom: 1px solid #f0f0f0;
+
+      .ant-card-head-title {
+        font-weight: 600;
+        color: #1e293b;
+        font-size: 16px;
+      }
+    }
+
+    .pricing-section {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+      background: $light-gray;
+      padding: 12px;
+      border-radius: 8px;
+
+      .price-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+
+        .price-icon {
+          color: $success-color;
+          font-size: 14px;
+        }
+
+        .price-details {
+          display: flex;
+          flex-direction: column;
+
+          .price-label {
+            font-size: 11px;
+            color: $dark-gray;
+            line-height: 1;
+          }
+
+          .price-value {
+            font-size: 14px;
+            font-weight: 600;
+            color: $text-color;
+            line-height: 1.2;
+          }
+        }
+      }
+    }
+    .education-university {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+  }
+
+  .basic-info-card {
+    .profile-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 24px;
+      position: relative;
+
+      .profile-avatar {
+        flex-shrink: 0;
+        font-size: 40px;
+        font-weight: 600;
+      }
+
+      .profile-info {
+        flex: 1;
+
+        .profile-name {
+          margin: 0 0 8px 0;
+          font-size: 28px;
+          font-weight: 700;
+          color: #1e293b;
+        }
+
+        .role-tag {
+          font-size: 14px;
+          padding: 4px 12px;
+          border-radius: 6px;
+          margin-bottom: 16px;
+          display: inline-flex;
+          align-items: center;
+          gap: 6px;
+          font-weight: 500;
+
+          .anticon {
+            font-size: 14px;
+          }
+        }
+
+        .contact-info {
+          margin-bottom: 16px;
+
+          .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 8px;
+            color: #64748b;
+            font-size: 14px;
+
+            .contact-icon {
+              color: #667eea;
+              font-size: 16px;
+            }
+          }
+        }
+
+        .profile-bio {
+          color: #64748b;
+          font-size: 14px;
+          line-height: 1.6;
+          margin: 0;
+          font-style: italic;
+        }
+                .ant-form-item {
+          margin-bottom: 12px;
+
+          label {
+            font-weight: 500;
+            color: #475569;
+          }
+
+          .ant-input,
+          .ant-select-selector,
+          .ant-input-textarea {
+            border-radius: 8px;
+            padding: 8px 12px;
+          }
+        }
+      }
+    }
+  }
+
+  .role-specific-content {
+    .tags-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+
+      .skill-tag {
+        padding: 4px 12px;
+        border-radius: 16px;
+        font-size: 12px;
+        font-weight: 500;
+        border: none;
+      }
+    }
+
+    .info-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      padding: 8px 0;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+
+      strong {
+        color: #1e293b;
+        font-weight: 600;
+        font-size: 14px;
+      }
+
+      span {
+        color: #64748b;
+        font-size: 14px;
+        text-align: right;
+      }
+    }
+
+    .rates-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+
+      .rate-item {
+        text-align: center;
+        padding: 16px;
+        background: #f8fafc;
+        border-radius: 8px;
+
+        .rate-label {
+          color: #64748b;
+          font-size: 12px;
+          margin-bottom: 4px;
+          text-transform: uppercase;
+          font-weight: 500;
+          letter-spacing: 0.5px;
+        }
+
+        .rate-value {
+          color: #1e293b;
+          font-size: 24px;
+          font-weight: 700;
+        }
+      }
+    }
+
+    .learning-goals {
+      color: #64748b;
+      font-size: 14px;
+      line-height: 1.6;
+      margin: 0;
+      background: #f8fafc;
+      padding: 16px;
+      border-radius: 8px;
+      border-left: 4px solid #667eea;
+    }
+
+    .admin-info {
+      .info-item {
+        border-bottom: 1px solid #f0f0f0;
+        padding: 16px 0;
+
+        &:last-child {
+          border-bottom: none;
+        }
+
+        .ant-tag {
+          margin-left: auto;
+        }
+      }
+    }
+  }
+    .form-actions {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 16px;
+
+    .ant-btn {
+      border-radius: 6px;
+      padding: 6px 18px;
+      font-weight: 500;
+    }
+
+    .ant-btn-primary {
+      background: #667eea;
+      border-color: #667eea;
+
+      &:hover {
+        background: #5a6fd8;
+        border-color: #5a6fd8;
+      }
+    }
+  }
+    @media (max-width: 768px) {
+    padding: 16px;
+
+    .basic-info-card {
+      .profile-header {
+        flex-direction: column;
+        text-align: center;
+
+        .profile-info {
+          .contact-info {
+            .contact-item {
+              justify-content: center;
+            }
+          }
+        }
+
+        .edit-btn {
+          position: static;
+          margin-top: 16px;
+          align-self: center;
+        }
+      }
+    }
+
+    .role-specific-content {
+      .rates-container {
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+    }
+  }
+
+  @media (max-width: 576px) {
+    .basic-info-card {
+      .profile-header {
+        .profile-avatar {
+          width: 80px;
+          height: 80px;
+          font-size: 28px;
+        }
+
+        .profile-info {
+          .profile-name {
+            font-size: 22px;
+          }
+        }
+      }
+    }
+
+    .role-specific-content {
+      .info-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 4px;
+
+        span {
+          text-align: left;
+        }
+      }
+    }
+  }
+    .ant-card {
+    .ant-card-head {
+      .ant-card-extra {
+        color: #667eea;
+        font-size: 16px;
+      }
+    }
+  }
+
+  .ant-tag {
+    border-radius: 6px;
+    font-weight: 500;
+
+    &.ant-tag-blue {
+      background: rgba(102, 126, 234, 0.1);
+      border-color: rgba(102, 126, 234, 0.2);
+      color: #667eea;
+    }
+
+    &.ant-tag-green {
+      background: rgba(82, 196, 26, 0.1);
+      border-color: rgba(82, 196, 26, 0.2);
+      color: #52c41a;
+    }
+
+    &.ant-tag-purple {
+      background: rgba(114, 46, 209, 0.1);
+      border-color: rgba(114, 46, 209, 0.2);
+      color: #722ed1;
+    }
+
+    &.ant-tag-red {
+      background: rgba(255, 77, 79, 0.1);
+      border-color: rgba(255, 77, 79, 0.2);
+      color: #ff4d4f;
+    }
+  }
+
+  .ant-divider {
+    border-color: #e2e8f0;
+    margin: 32px 0;
+  }
+    .ant-skeleton {
+    .ant-skeleton-content {
+      .ant-skeleton-title,
+      .ant-skeleton-paragraph > li {
+        background: linear-gradient(90deg, #f2f2f2 25%, #e6e6e6 37%, #f2f2f2 63%);
+        background-size: 400% 100%;
+        animation: ant-skeleton-loading 1.4s ease infinite;
+      }
+    }
+  }
+    @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .profile-card {
+    animation: fadeInUp 0.6s ease-out;
+
+    &:nth-child(1) { animation-delay: 0.1s; }
+    &:nth-child(2) { animation-delay: 0.2s; }
+    &:nth-child(3) { animation-delay: 0.3s; }
+    &:nth-child(4) { animation-delay: 0.4s; }
+  }
+    .profile-card {
+    transition: all 0.3s ease;
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+    }
+  }
+    .ant-btn:focus,
+  .ant-input:focus,
+  .ant-select:focus {
+    outline: 2px solid #667eea;
+    outline-offset: 2px;
+  }
+
+  .page-title {
+    font-size: 18px;
+    font-weight: bold;
+  }
+}
