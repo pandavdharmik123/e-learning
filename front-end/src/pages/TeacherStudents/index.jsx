@@ -69,7 +69,6 @@ const TeacherStudents = () => {
 
   return (
     <div className="student-management-page">
-      {/* Header */}
       <div className="page-header">
         <p className="page-title">Student</p>
 
@@ -94,13 +93,6 @@ const TeacherStudents = () => {
             ))}
           </Select>
 
-          {/*<Button*/}
-          {/*  type="primary"*/}
-          {/*  icon={<CalendarOutlined />}*/}
-          {/*  className="date-button"*/}
-          {/*>*/}
-          {/*  Date*/}
-          {/*</Button>*/}
         </div>
       </div>
 

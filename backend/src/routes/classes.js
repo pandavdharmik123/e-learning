@@ -120,11 +120,6 @@ router.delete("/class/:id", authMiddleware, requireTeacher, async (req, res) => 
     }
 });
 
-
-/**
- * @route GET /classes/teacher
- * @desc Get all classes for logged-in teacher
- */
 router.get("/teacher/class", authMiddleware, requireTeacher, async (req, res) => {
     try {
         const teacherId = req.user.id;
@@ -141,10 +136,6 @@ router.get("/teacher/class", authMiddleware, requireTeacher, async (req, res) =>
     }
 });
 
-/**
- * @route GET /classes/student
- * @desc Get all classes for logged-in student
- */
 router.get("/student/class", authMiddleware, requireStudent, async (req, res) => {
     try {
         const studentId = req.user.id; // this is the logged-in student id (number)

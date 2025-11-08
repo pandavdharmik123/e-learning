@@ -53,10 +53,6 @@ export default function HomePage() {
                   className="w-53 h-52 object-cover rounded-full"
                 />
               </div>
-              {/*<div className="absolute top-8 right-8 w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-500 rounded-full opacity-60 animate-pulse"></div>
-
-              <div className="absolute top-12 left-8 w-6 h-6 bg-gradient-to-br from-purple-400 to-pink-400 rounded-full opacity-70 animate-ping"></div>
-*/}
               <div className="absolute -top-4 -right-4 w-16 h-16 bg-orange-400 rounded-full opacity-70 animate-pulse"></div>
               <div className="absolute -bottom-4 -left-4 w-12 h-12 bg-blue-600 rounded-full opacity-70 animate-pulse"></div>
               <div className="absolute top-1/2 -left-8 w-8 h-8 bg-purple-600 rounded-full opacity-70 animate-pulse"></div>

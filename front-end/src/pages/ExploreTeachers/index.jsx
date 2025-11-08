@@ -167,7 +167,6 @@ const ExploreTeachers = () => {
           <Row gutter={[24, 24]}>
             {filteredTeachers.map((teacher) => (
               <Col key={teacher.teacher_id} xs={24} sm={12} lg={8} xl={6}>
-                {/*{renderTeacherCard(teacher)}*/}
                 <TeacherCard teacher={teacher}  isExploreTeachers={true} handleHireTeacher={handleHireTeacher} />
               </Col>
             ))}

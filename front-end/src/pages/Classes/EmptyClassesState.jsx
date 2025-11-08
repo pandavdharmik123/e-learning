@@ -8,19 +8,16 @@ import { Button } from 'antd';
 const EmptyClassesState = ({ userRole }) => {
   return (
     <div className="empty-classes-container">
-      {/* Icon Container with Animation */}
       <div className="icon-wrapper">
         <div className="main-icon-circle">
           <BookOutlined className="book-icon" />
         </div>
 
-        {/* Decorative floating calendar icon */}
         <div className="floating-calendar">
           <CalendarOutlined className="calendar-icon" />
         </div>
       </div>
 
-      {/* Text Content */}
       <h2 className="empty-title">
         {userRole === 'teacher' ? 'No Classes Created Yet' : 'No Classes Scheduled'}
       </h2>
@@ -30,7 +27,6 @@ const EmptyClassesState = ({ userRole }) => {
           ? "Get started by creating your first class. Schedule sessions, add students, and manage your teaching schedule all in one place."
           : "You don't have any upcoming classes at the moment. Check back later or contact your teacher for more information."}
       </p>
-      {/* Decorative Background Elements */}
       <div className="decorative-blob blob-1" />
       <div className="decorative-blob blob-2" />
     </div>

@@ -263,8 +263,6 @@ const ProfilePage = () => {
                       </Row>
                     ) : (
                       <>
-                        {/*<div><strong>Hourly Rate:</strong> ${userProfile?.hourly_rate}</div>*/}
-                        {/*<div><strong>Monthly Rate:</strong> ${userProfile?.monthly_rate}</div>*/}
                         <div className="pricing-section">
                           <div className="price-item">
                             <DollarOutlined className="price-icon" />

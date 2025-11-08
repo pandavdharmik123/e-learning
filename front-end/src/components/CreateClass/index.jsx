@@ -111,7 +111,6 @@ const ClassModal = ({
           </Col>
         </Row>
 
-        {/*{!isEdit && (*/}
           <Form.Item
             label="Select Students"
             name="student_ids"
@@ -136,7 +135,6 @@ const ClassModal = ({
               ))}
             </Select>
           </Form.Item>
-        {/*)}*/}
 
         <Form.Item label="Meeting Link" name="zoom_link">
           <Input
