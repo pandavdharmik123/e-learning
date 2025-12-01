@@ -78,7 +78,7 @@ export default function Header() {
 
       {token ? (
         <div className="flex items-center gap-2">
-          {!isDashboardRoute  && token && (
+          {!isDashboardRoute  && token && user?.is_verified && (
             <button
               className="px-4 py-2 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-lg hover:shadow-lg transition-all"
               onClick={() => navigate('/dashboard')}

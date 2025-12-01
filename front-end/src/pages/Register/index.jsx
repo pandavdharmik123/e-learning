@@ -35,11 +35,12 @@ const RegistrationPage = () => {
   const handleFinish = (values) => {
     const payload = { ...formData, ...values };
     if(values.hourly_rate) {
-      payload.hourly_rate = values.hourly_rate;
+      payload.hourly_rate = Number(values.hourly_rate);
     }
     if(values.monthly_rate) {
-      payload.hourly_rate = values.monthly_rate;
+      payload.monthly_rate = Number(values.monthly_rate);
     }
+    console.log('payload', payload);
     setFormData({...payload});
     nextStep();
   };

@@ -3,6 +3,7 @@ import { publicRoutes, privateRoutes } from "@/routes";
 import NotFoundPage from "@pages/NotFoundPage";
 import PrivateRoute from "@/routes/PrivateRoute";
 import DashboardLayout from "@/layout/DashboardLayout";
+import ExploreTeachers from '@pages/ExploreTeachers/index.jsx';
 
 const Main = () => {
   return (
@@ -17,6 +18,7 @@ const Main = () => {
             <Route key={index} path={route.path} element={route.element} />
           ))}
         </Route>
+        <Route key={'/explore/teachers'} path={'/explore/teachers'} element={<ExploreTeachers />} />
       </Route>
 
       <Route path="*" element={<NotFoundPage />} />

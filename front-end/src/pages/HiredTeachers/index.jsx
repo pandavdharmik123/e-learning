@@ -30,7 +30,11 @@ import '../ExploreTeachers/exploreTeacher.scss';
 import { fetchTeachers } from '@store/teacherSlice.js';
 import { useDispatch, useSelector } from 'react-redux';
 import { isEmpty } from 'lodash/lang.js';
-import { fetchHiredTeachers, hireTeacher } from '@store/studentSlice.js';
+import {
+  dismissTeacher,
+  fetchHiredTeachers,
+  hireTeacher,
+} from '@store/studentSlice.js';
 import TeacherCard from '@components/TeacherCard/index.jsx';
 
 const { Search } = Input;
@@ -119,6 +123,20 @@ const HiredTeachers = () => {
     }
   };
 
+  const handleDismissTeacher = async (teacherId) => {
+    try {
+      await dispatch(dismissTeacher(teacherId)).unwrap();
+
+      setTeachers(prev => prev.filter(t => t.teacher_id !== teacherId));
+      setFilteredTeachers(prev => prev.filter(t => t.teacher_id !== teacherId));
+
+      message.success("Teacher dismissed successfully.");
+    } catch (error) {
+      message.error(error || "Failed to dismiss teacher.");
+    }
+  };
+
+
   return (
     <div className="explore-teachers-page">
       <div className="filters-section">
@@ -193,7 +211,12 @@ const HiredTeachers = () => {
           <Row gutter={[24, 24]}>
             {filteredTeachers.map((teacher) => (
               <Col key={teacher.teacher_id} xs={24} sm={12} lg={8} xl={6}>
-                <TeacherCard teacher={teacher} handleHireTeacher={handleHireTeacher} />
+                <TeacherCard
+                  teacher={teacher}
+                  handleHireTeacher={handleHireTeacher}
+                  handleDismissTeacher={handleDismissTeacher}
+                  isHiredTeacher={true }
+                />
               </Col>
             ))}
           </Row>

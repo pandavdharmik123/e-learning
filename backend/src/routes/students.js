@@ -108,6 +108,44 @@ router.post("/teachers/:teacherId/hire", authMiddleware, requireStudent, async (
   }
 });
 
+router.post("/teachers/:teacherId/dismiss", authMiddleware, requireStudent, async (req, res) => {
+    try {
+        const { teacherId } = req.params;
+        const studentId = req.user.id;
+
+        const teacher = await prisma.teacher.findUnique({
+            where: { teacher_id: Number(teacherId) },
+        });
+
+        if (!teacher) {
+            return res.status(404).json({ error: "Teacher not found" });
+        }
+
+        let hiredStudents = teacher.hired_by_students || [];
+
+        if (!hiredStudents.includes(studentId)) {
+            return res.status(400).json({ message: "You have not hired this teacher" });
+        }
+
+        // Remove student from list
+        hiredStudents = hiredStudents.filter(id => id !== studentId);
+
+        await prisma.teacher.update({
+            where: { teacher_id: Number(teacherId) },
+            data: {
+                hired_by_students: hiredStudents,
+                total_students: { decrement: 1 }
+            },
+        });
+
+        return res.json({ message: "Teacher dismissed successfully!" });
+
+    } catch (err) {
+        console.error("Dismiss teacher error:", err);
+        res.status(500).json({ error: "Something went wrong" });
+    }
+});
+
 router.get("/student/me/teachers", authMiddleware, requireStudent, async (req, res) => {
   try {
     const studentId = req.user.id;

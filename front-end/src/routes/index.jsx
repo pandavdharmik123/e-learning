@@ -22,5 +22,5 @@ export const privateRoutes = [
   { path: "/dashboard/students", element: <TeacherStudents /> },
   { path: "/dashboard/classes", element: <ClassManagement /> },
   { path: "/dashboard/users", element: <AdminUsersPage /> },
-  { path: "/explore/teachers", element: <ExploreTeachers /> },
+  // { path: "/explore/teachers", element: <ExploreTeachers /> },
 ];

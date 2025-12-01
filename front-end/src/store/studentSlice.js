@@ -14,6 +14,18 @@ export const fetchHiredTeachers = createAsyncThunk(
   }
 );
 
+export const dismissTeacher = createAsyncThunk(
+  "student/dismissTeacher",
+  async (teacherId, { rejectWithValue }) => {
+    try {
+      const response = await api.post(`/teachers/${teacherId}/dismiss`);
+      return { teacherId, ...response.data };
+    } catch (err) {
+      return rejectWithValue(err.response?.data?.error || "Failed to dismiss teacher");
+    }
+  }
+);
+
 
 export const hireTeacher = createAsyncThunk(
   "student/hireTeacher",
@@ -72,6 +84,11 @@ const studentSlice = createSlice({
       .addCase(hireTeacher.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
+      })
+      .addCase(dismissTeacher.fulfilled, (state, action) => {
+        state.hiredTeachers = state.hiredTeachers.filter(
+          t => t.teacher_id !== action.payload.teacherId
+        );
       });
   },
 });

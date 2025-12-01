@@ -5,7 +5,7 @@ import './exploreTeacher.scss';
 import { fetchTeachers } from '@store/teacherSlice.js';
 import { useDispatch, useSelector } from 'react-redux';
 import { isEmpty } from 'lodash/lang.js';
-import { hireTeacher } from '@store/studentSlice.js';
+import { fetchHiredTeachers, hireTeacher } from '@store/studentSlice.js';
 import TeacherCard from '@components/TeacherCard/index.jsx';
 
 const { Search } = Input;
@@ -21,19 +21,32 @@ const ExploreTeachers = () => {
   const [hiringLoading, setHiringLoading] = useState({});
 
   const { teachers: storeTeachers, loading } = useSelector((state) => state.teachers);
+  const { user } = useSelector((state) => state.auth);
+  const { hiredTeachers } = useSelector((state) => state.students);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(fetchTeachers());
-  }, []);
+    if(user.role === 'student') {
+      dispatch(fetchTeachers());
+      dispatch(fetchHiredTeachers());
+    }
+  }, [user]);
 
   useEffect(() => {
     if(!isEmpty(storeTeachers)) {
-      setTeachers(storeTeachers);
-      setFilteredTeachers(storeTeachers);
+      let teachers = storeTeachers;
+      if(!isEmpty(hiredTeachers)) {
+        const teacher_ids = hiredTeachers.map((teacher) => teacher.teacher_id);
+        teachers = teachers.filter((teacher) => !teacher_ids.includes(teacher.teacher_id));
+      }
+      // const filteredTeachers =
+      setTeachers(teachers);
+      setFilteredTeachers(teachers);
     }
-  }, [storeTeachers]);
+  }, [storeTeachers, hiredTeachers]);
+
+  console.log('storeTeacher', storeTeachers, filteredTeachers);
 
   useEffect(() => {
     let filtered = teachers;
@@ -94,7 +107,7 @@ const ExploreTeachers = () => {
   };
 
   return (
-    <div className="explore-teachers-page">
+    <div className="explore-teachers-page normal">
       <div className="filters-section">
         <Row gutter={[16, 16]} align="middle">
           <Col xs={24} sm={12} md={8} lg={6}>
