@@ -1,73 +1,45 @@
-$primary-color: #6366f1;
-$text-primary: #111827;
-$text-secondary: #6b7280;
-$text-color: #2c3e50;
-$border-color: #e5e7eb;
-$white: #ffffff;
+@import '../../styles/variables';
 
 .documents-page {
-  padding: 20px;
-  background-color: #f9fafb;
-  min-height: 100vh;
+  @include page-container;
 
   .documents-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 16px;
-    padding: 0 4px;
+    @include page-header;
 
     .page-title {
-      font-weight: 600;
-      color: $text-color;
-      font-size: 24px;
-      margin: 0;
+      @include page-title;
     }
 
     .create-button {
-      background-color: $primary-color;
-      border: none;
-      height: 40px;
-      padding: 0 20px;
-      border-radius: 8px;
-      font-weight: 500;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      transition: all 0.2s ease;
-
-      &:hover {
-        background-color: darken($primary-color, 8%);
-        transform: translateY(-1px);
-      }
+      @include create-button;
     }
   }
 
   .ant-table {
-    border-radius: 12px;
+    border-radius: $radius-lg;
     overflow: hidden;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    box-shadow: $shadow;
 
     .ant-table-thead > tr > th {
-      background: #fafafa;
+      background: $gray-50;
       font-weight: 600;
       color: $text-primary;
       border-bottom: 1px solid $border-color;
     }
 
     .ant-table-tbody > tr:hover > td {
-      background: #f9fafb;
+      background: $gray-50;
     }
   }
 
   .doc-title-cell {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: $sp-3;
 
     .doc-icon {
-      font-size: 20px;
-      color: $primary-color;
+      font-size: $font-xl;
+      color: $primary;
       flex-shrink: 0;
     }
 
@@ -78,7 +50,7 @@ $white: #ffffff;
     }
 
     .doc-filename {
-      font-size: 12px;
+      font-size: $font-xs;
       color: $text-secondary;
       margin-top: 2px;
     }
@@ -86,18 +58,18 @@ $white: #ffffff;
 
   .action-buttons {
     display: flex;
-    gap: 4px;
+    gap: $sp-1;
   }
 }
 
 .document-form {
   .ant-upload-drag {
-    border-radius: 8px;
+    border-radius: $radius;
     border: 1px dashed $border-color;
     transition: border-color 0.2s;
 
     &:hover {
-      border-color: $primary-color;
+      border-color: $primary;
     }
   }
 }

@@ -1,0 +1,14 @@
+@import '../styles/variables';
+
+.dashboard-layout {
+  display: flex;
+}
+
+.dashboard-main {
+  margin-left: $sidebar-width;
+  margin-top: $header-height;
+  min-height: calc(100vh - $header-height);
+  background: $page-bg;
+  overflow-y: auto;
+  width: calc(100% - $sidebar-width);
+}

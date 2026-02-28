@@ -1,3 +1,6 @@
+@import '../../styles/variables';
+
 .profile-avatar {
-  font-size: 16px !important;
+  font-size: $font-base !important;
+  background: $primary-gradient;
 }

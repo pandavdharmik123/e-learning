@@ -1,14 +1,18 @@
+@import '../../styles/variables';
+
 .sidebar-container {
   box-shadow: none;
-  padding: 8px 4px;
-  border-right: 2px solid #f1f0fd;
+  padding: $sp-2 $sp-1;
+  border-right: 2px solid $primary-light;
 
   .ant-layout-sider-children {
     .ant-menu-root {
       border-inline-end: none;
+
       .ant-menu-title-content {
         font-family: 'Roboto', sans-serif;
       }
+
       .ant-menu-item {
         position: relative;
 
@@ -18,48 +22,51 @@
           left: 0;
           top: 50%;
           transform: translateY(-50%);
-          width: 6px;                // adjust bar thickness
-          height: 50%;               // adjust bar height relative to li
-          background-color: #3b5bfd; // your blue color
-          border-radius: 4px;        // make it rounded like the image
-          opacity: 0;                // hidden by default
+          width: 6px;
+          height: 50%;
+          background-color: $primary;
+          border-radius: $sp-1;
+          opacity: 0;
           transition: opacity 0.2s ease, height 0.2s ease;
         }
 
         &.ant-menu-item-selected::before {
-          opacity: 1;     // visible only for active/selected item
+          opacity: 1;
         }
+
         &:hover::before {
           opacity: 0.7;
         }
 
         .ant-menu-title-content {
-          font-size: 16px;
-          color: #667184;
+          font-size: $font-base;
+          color: $gray-500;
         }
-        .ant-menu-item-icon {
-          height: 16px;
-          width: 16px;
 
-          svg{
+        .ant-menu-item-icon {
+          height: $sp-4;
+          width: $sp-4;
+
+          svg {
             height: 100%;
             width: 100%;
-            fill: #667184;
+            fill: $gray-500;
           }
         }
-        &.ant-menu-item-selected {
-          background: #f1f0fd;
 
-          .ant-menu-item-icon {
-            svg{
-              fill: #4541e0;
-            }
+        &.ant-menu-item-selected {
+          background: $primary-light;
+
+          .ant-menu-item-icon svg {
+            fill: $primary;
           }
+
           .ant-menu-title-content {
-            color: #4541e0;
+            color: $primary;
           }
         }
       }
     }
   }
 }
+  

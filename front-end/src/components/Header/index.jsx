@@ -28,7 +28,7 @@ export function Greeting({ user }) {
       <div className="greeting text-gray-700 font-medium">
         {greeting}, {user?.first_name || ""} {user?.last_name || ""}
       </div>
-      <div className={'flex align-center justify-between'}>
+      <div className={'flex gap-3 align-center justify-between'}>
         <div className="date text-sm text-gray-500">{formattedDate}</div>
         <RoleTag role={user?.role} />
 

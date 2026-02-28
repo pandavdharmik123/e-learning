@@ -1,118 +1,46 @@
-
-
-$primary-purple: #6366f1;
-$text-primary: #1f2937;
-$text-secondary: #6b7280;
-$text-muted: #9ca3af;
-$background-white: #ffffff;
-$border-light: #f3f4f6;
-$text-color: #2c3e50;
-$shadow-light: 0 1px 3px rgba(0, 0, 0, 0.1);
-$shadow-hover: 0 4px 12px rgba(0, 0, 0, 0.15);
-
-$primary-color: #6366f1;
-$secondary-color: #f3f4f6;
-$text-primary: #111827;
-$text-secondary: #6b7280;
-$text-muted: #9ca3af;
-$border-color: #e5e7eb;
-$white: #ffffff;
-$hover-color: #f9fafb;
-$shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
-
+@import '../../styles/variables';
 
 .class-cards-container {
-  padding: 20px;
-  background-color: #f9fafb;
-  min-height: 100vh;
+  @include page-container;
 
   .class-cards-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 12px;
-    padding: 0 4px;
-
-    .class-cards-title {
-      font-size: 32px;
-      font-weight: 600;
-      color: $text-primary;
-      margin: 0;
-    }
+    @include page-header;
 
     .class-cards-actions {
       display: flex;
-      gap: 12px;
+      gap: $sp-3;
       align-items: center;
 
-      .date-button {
-        border: 1px solid $border-color;
-        background-color: $white;
-        color: $text-secondary;
-        height: 40px;
-        padding: 0 16px;
-        border-radius: 8px;
-        font-weight: 500;
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        transition: all 0.2s ease;
-
-        &:hover {
-          border-color: $primary-color;
-          color: $primary-color;
-          background-color: rgba($primary-color, 0.05);
-        }
-      }
-
       .create-button {
-        background-color: $primary-color;
-        border: none;
-        height: 40px;
-        padding: 0 20px;
-        border-radius: 8px;
-        font-weight: 500;
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        transition: all 0.2s ease;
-
-        &:hover {
-          background-color: darken($primary-color, 8%);
-          transform: translateY(-1px);
-        }
+        @include create-button;
       }
     }
   }
 
-
   .page-title {
-    font-weight: 600;
-    color: $text-color;
-    font-size: 24px;
+    @include page-title;
   }
 }
 
 .cards-wrapper {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: $sp-3;
 }
 
 .single-class-card {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: $background-white;
-  border: 1px solid $border-light;
-  border-radius: 12px;
-  padding: 12px 24px;
-  box-shadow: $shadow-light;
-  transition: all 0.3s ease;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+  background: $card-bg;
+  border: 1px solid $gray-100;
+  border-radius: $radius-lg;
+  padding: $sp-3 $sp-6;
+  box-shadow: $shadow;
+  transition: $transition;
 
   &:hover {
-    box-shadow: $shadow-hover;
+    box-shadow: $shadow-md;
     transform: translateY(-2px);
   }
 }
@@ -122,18 +50,17 @@ $shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
   min-width: 120px;
 
   .subject-title {
-    font-size: 18px;
+    font-size: $font-lg;
     font-weight: 600;
     color: $text-primary;
-    margin: 0 0 4px 0;
+    margin: 0 0 $sp-1 0;
     line-height: 1.2;
   }
 
   .class-date {
-    font-size: 14px;
+    font-size: $font-sm;
     color: $text-secondary;
     margin: 0;
-    font-weight: 400;
   }
 }
 
@@ -141,16 +68,16 @@ $shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
   flex: 2;
   display: flex;
   justify-content: center;
-  padding: 0 20px;
+  padding: 0 $sp-5;
 
   .time-info {
     display: flex;
-    gap: 20px;
+    gap: $sp-5;
     align-items: center;
   }
 
   .vertical-line {
-    border-left: 3px solid $border-light;
+    border-left: 3px solid $gray-100;
     height: 40px;
   }
 
@@ -161,7 +88,7 @@ $shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
     text-align: center;
 
     .time-value {
-      font-size: 16px;
+      font-size: $font-base;
       font-weight: 600;
       color: $text-primary;
       margin-bottom: 2px;
@@ -169,11 +96,8 @@ $shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
     }
 
     .time-label {
-      font-size: 12px;
+      font-size: $font-xs;
       color: $text-muted;
-      font-weight: 400;
-      text-transform: none;
-      letter-spacing: 0;
     }
   }
 }
@@ -183,23 +107,23 @@ $shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  gap: 6px;
+  gap: $sp-2;
 
   .start-class-button {
-    background: $primary-purple;
+    background: $primary;
     color: white;
     border: none;
-    border-radius: 8px;
-    padding: 8px 16px;
-    font-size: 14px;
+    border-radius: $radius;
+    padding: $sp-2 $sp-4;
+    font-size: $font-sm;
     font-weight: 500;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: $transition;
     min-width: 90px;
     white-space: nowrap;
 
     &:hover {
-      background: darken($primary-purple, 8%);
+      background: $primary-hover;
       transform: translateY(-1px);
     }
 
@@ -211,11 +135,11 @@ $shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
   .meeting-link-container {
     display: flex;
     align-items: center;
-    gap: 4px;
+    gap: $sp-1;
     max-width: 180px;
 
     .meeting-link {
-      font-size: 12px;
+      font-size: $font-xs;
       color: $text-secondary;
       text-decoration: none;
       overflow: hidden;
@@ -231,22 +155,18 @@ $shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
     }
 
     &:hover {
-      .meeting-link {
-        color: $primary-purple;
-      }
-
+      .meeting-link,
       .external-link-icon {
-        color: $primary-purple;
+        color: $primary;
       }
     }
   }
 }
 
-
 .anticon-edit, .anticon-delete {
   height: 30px;
   width: 30px;
-  margin-left: 12px;
+  margin-left: $sp-3;
   cursor: pointer;
   svg {
     height: 100% !important;
@@ -257,8 +177,8 @@ $shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
 @media (max-width: 768px) {
   .single-class-card {
     flex-direction: column;
-    gap: 16px;
-    padding: 16px;
+    gap: $sp-4;
+    padding: $sp-4;
     text-align: center;
   }
 
@@ -274,28 +194,23 @@ $shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
       gap: 30px;
     }
   }
-
-  .meeting-link-container {
-    max-width: 100%;
-    justify-content: center;
-  }
 }
 
 @media (max-width: 480px) {
   .cards-wrapper {
-    gap: 8px;
+    gap: $sp-2;
   }
 
   .single-class-card {
-    padding: 12px;
+    padding: $sp-3;
   }
 
   .card-center-section .time-info {
-    gap: 20px;
+    gap: $sp-5;
   }
 
   .time-block .time-value {
-    font-size: 14px;
+    font-size: $font-sm;
   }
 
   .time-block .time-label {
@@ -304,7 +219,7 @@ $shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
 
   .start-class-button {
     font-size: 13px;
-    padding: 6px 12px;
+    padding: $sp-2 $sp-3;
   }
 }
 
@@ -323,28 +238,28 @@ $shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
   animation: cardSlideIn 0.4s ease-out;
 }
 
+// Empty state
 .empty-classes-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 80px 20px;
+  padding: 80px $sp-5;
   min-height: 400px;
   text-align: center;
   position: relative;
   overflow: hidden;
 
-  // Icon Wrapper with floating animation
   .icon-wrapper {
     position: relative;
-    margin-bottom: 24px;
+    margin-bottom: $sp-6;
     animation: float 3s ease-in-out infinite;
 
     .main-icon-circle {
       width: 120px;
       height: 120px;
       border-radius: 50%;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      background: $primary-gradient;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -356,7 +271,6 @@ $shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
       }
     }
 
-    // Floating calendar icon
     .floating-calendar {
       position: absolute;
       top: -10px;
@@ -364,11 +278,11 @@ $shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
       width: 40px;
       height: 40px;
       border-radius: 50%;
-      background: #ffd93d;
+      background: $warning;
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 4px 12px rgba(255, 217, 61, 0.4);
+      box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4);
       animation: pulse 2s ease-in-out infinite;
 
       .calendar-icon {
@@ -378,47 +292,40 @@ $shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
     }
   }
 
-  // Text Content
   .empty-title {
     font-size: 28px;
     font-weight: 700;
-    color: #1a1a1a;
-    margin-bottom: 12px;
+    color: $gray-900;
+    margin-bottom: $sp-3;
     letter-spacing: -0.5px;
   }
 
   .empty-description {
-    font-size: 16px;
-    color: #666;
+    font-size: $font-base;
+    color: $gray-500;
     max-width: 440px;
     line-height: 1.6;
-    margin-bottom: 32px;
+    margin-bottom: $sp-8;
   }
 
-  // Create Button
   .create-first-class-btn {
     height: 48px;
-    padding: 0 32px;
-    font-size: 16px;
+    padding: 0 $sp-8;
+    font-size: $font-base;
     font-weight: 600;
-    border-radius: 8px;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: $radius;
+    background: $primary-gradient;
     border: none;
     box-shadow: 0 4px 16px rgba(102, 126, 234, 0.4);
-    transition: all 0.3s ease;
+    transition: $transition;
 
     &:hover {
       transform: translateY(-2px);
       box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    }
-
-    &:active {
-      transform: translateY(0);
+      background: $primary-gradient;
     }
   }
 
-  // Decorative Background Blobs
   .decorative-blob {
     position: absolute;
     z-index: -1;
@@ -439,141 +346,41 @@ $shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
       width: 80px;
       height: 80px;
       border-radius: 70% 30% 30% 70% / 70% 70% 30% 30%;
-      background: linear-gradient(135deg, rgba(255, 217, 61, 0.15) 0%, rgba(255, 193, 7, 0.15) 100%);
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.15) 0%, rgba(245, 158, 11, 0.15) 100%);
       animation: morph 6s ease-in-out infinite;
     }
   }
 }
 
-// Animations
 @keyframes float {
-  0%, 100% {
-    transform: translateY(0px);
-  }
-  50% {
-    transform: translateY(-20px);
-  }
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-20px); }
 }
 
 @keyframes pulse {
-  0%, 100% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.1);
-  }
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
 }
 
 @keyframes morph {
-  0%, 100% {
-    border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
-  }
-  25% {
-    border-radius: 58% 42% 75% 25% / 76% 46% 54% 24%;
-  }
-  50% {
-    border-radius: 50% 50% 33% 67% / 55% 27% 73% 45%;
-  }
-  75% {
-    border-radius: 33% 67% 58% 42% / 63% 68% 32% 37%;
-  }
+  0%, 100% { border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%; }
+  25% { border-radius: 58% 42% 75% 25% / 76% 46% 54% 24%; }
+  50% { border-radius: 50% 50% 33% 67% / 55% 27% 73% 45%; }
+  75% { border-radius: 33% 67% 58% 42% / 63% 68% 32% 37%; }
 }
 
-// Responsive Design
 @media (max-width: 768px) {
   .empty-classes-container {
-    padding: 60px 20px;
+    padding: 60px $sp-5;
 
-    .icon-wrapper {
-      .main-icon-circle {
-        width: 100px;
-        height: 100px;
+    .icon-wrapper .main-icon-circle {
+      width: 100px;
+      height: 100px;
 
-        .book-icon {
-          font-size: 48px;
-        }
-      }
-
-      .floating-calendar {
-        width: 35px;
-        height: 35px;
-
-        .calendar-icon {
-          font-size: 18px;
-        }
-      }
+      .book-icon { font-size: 48px; }
     }
 
-    .empty-title {
-      font-size: 24px;
-    }
-
-    .empty-description {
-      font-size: 14px;
-      max-width: 340px;
-    }
-
-    .create-first-class-btn {
-      height: 44px;
-      padding: 0 24px;
-      font-size: 15px;
-    }
-
-    .decorative-blob {
-      &.blob-1 {
-        width: 70px;
-        height: 70px;
-      }
-
-      &.blob-2 {
-        width: 60px;
-        height: 60px;
-      }
-    }
-  }
-}
-
-@media (max-width: 480px) {
-  .empty-classes-container {
-    padding: 40px 16px;
-
-    .icon-wrapper {
-      margin-bottom: 20px;
-
-      .main-icon-circle {
-        width: 80px;
-        height: 80px;
-
-        .book-icon {
-          font-size: 40px;
-        }
-      }
-
-      .floating-calendar {
-        width: 30px;
-        height: 30px;
-        top: -8px;
-        right: -8px;
-
-        .calendar-icon {
-          font-size: 16px;
-        }
-      }
-    }
-
-    .empty-title {
-      font-size: 20px;
-      margin-bottom: 10px;
-    }
-
-    .empty-description {
-      font-size: 14px;
-      margin-bottom: 24px;
-    }
-
-    .create-first-class-btn {
-      width: 100%;
-      max-width: 280px;
-    }
+    .empty-title { font-size: $font-2xl; }
+    .empty-description { font-size: $font-sm; max-width: 340px; }
   }
 }

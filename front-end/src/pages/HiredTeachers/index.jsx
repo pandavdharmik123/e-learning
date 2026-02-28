@@ -1,33 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import {
-  Card,
   Button,
   Row,
   Col,
-  Avatar,
-  Rate,
-  Tag,
   Input,
   Select,
   Spin,
-  Empty,
   message,
-  Modal,
-  Typography,
-  Divider,
 } from 'antd';
 import {
   SearchOutlined,
-  FilterOutlined,
-  UserOutlined,
-  DollarOutlined,
-  BookOutlined,
-  GlobalOutlined,
-  TrophyOutlined,
   TeamOutlined,
+  BookOutlined,
 } from '@ant-design/icons';
 import '../ExploreTeachers/exploreTeacher.scss';
-import { fetchTeachers } from '@store/teacherSlice.js';
 import { useDispatch, useSelector } from 'react-redux';
 import { isEmpty } from 'lodash/lang.js';
 import {
@@ -36,10 +22,10 @@ import {
   hireTeacher,
 } from '@store/studentSlice.js';
 import TeacherCard from '@components/TeacherCard/index.jsx';
+import { useNavigate } from 'react-router-dom';
 
 const { Search } = Input;
 const { Option } = Select;
-const { Text, Title, Paragraph } = Typography;
 
 const HiredTeachers = () => {
   const [teachers, setTeachers] = useState([]);
@@ -53,6 +39,7 @@ const HiredTeachers = () => {
   const { hiredTeachers, loading } = useSelector((state) => state.students);
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
     dispatch(fetchHiredTeachers());
@@ -62,6 +49,9 @@ const HiredTeachers = () => {
     if(!isEmpty(hiredTeachers)) {
       setTeachers(hiredTeachers);
       setFilteredTeachers(hiredTeachers);
+    } else {
+      setTeachers([]);
+      setFilteredTeachers([]);
     }
   }, [hiredTeachers]);
 
@@ -71,20 +61,20 @@ const HiredTeachers = () => {
     if (searchTerm) {
       filtered = filtered.filter(teacher =>
         `${teacher.user.first_name} ${teacher.user.last_name}`.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        teacher.subjects.some(subject => subject.toLowerCase().includes(searchTerm.toLowerCase())) ||
-        teacher.qualifications.toLowerCase().includes(searchTerm.toLowerCase())
+        teacher.subjects?.some(subject => subject.toLowerCase().includes(searchTerm.toLowerCase())) ||
+        teacher.qualifications?.toLowerCase().includes(searchTerm.toLowerCase())
       );
     }
 
     if (selectedSubject !== 'all') {
       filtered = filtered.filter(teacher =>
-        teacher.subjects.includes(selectedSubject)
+        teacher.subjects?.includes(selectedSubject)
       );
     }
 
     if (selectedLanguage !== 'all') {
       filtered = filtered.filter(teacher =>
-        teacher.language.includes(selectedLanguage)
+        teacher.language?.includes(selectedLanguage)
       );
     }
 
@@ -136,92 +126,117 @@ const HiredTeachers = () => {
     }
   };
 
+  const hasNoHiredTeachers = !loading && teachers.length === 0;
 
   return (
     <div className="explore-teachers-page">
-      <div className="filters-section">
-        <Row gutter={[16, 16]} align="middle">
-          <Col xs={24} sm={12} md={8} lg={6}>
-            <Search
-              placeholder="Search teachers, subjects..."
-              prefix={<SearchOutlined />}
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="search-input"
-            />
-          </Col>
-          <Col xs={12} sm={6} md={4}>
-            <Select
-              value={selectedSubject}
-              onChange={setSelectedSubject}
-              className="filter-select"
-              placeholder="Subject"
-            >
-              <Option value="all">All Subjects</Option>
-              <Option value="Mathematics">Mathematics</Option>
-              <Option value="Physics">Physics</Option>
-              <Option value="Chemistry">Chemistry</Option>
-              <Option value="Biology">Biology</Option>
-              <Option value="Science">Science</Option>
-              <Option value="English Literature">English Literature</Option>
-              <Option value="Writing">Writing</Option>
-            </Select>
-          </Col>
-          <Col xs={12} sm={6} md={4}>
-            <Select
-              value={selectedLanguage}
-              onChange={setSelectedLanguage}
-              className="filter-select"
-              placeholder="Language"
-            >
-              <Option value="all">All Languages</Option>
-              <Option value="English">English</Option>
-              <Option value="Spanish">Spanish</Option>
-              <Option value="French">French</Option>
-              <Option value="Mandarin">Mandarin</Option>
-            </Select>
-          </Col>
-          <Col xs={12} sm={6} md={4}>
-            <Select
-              value={priceRange}
-              onChange={setPriceRange}
-              className="filter-select"
-              placeholder="Price Range"
-            >
-              <Option value="all">All Prices</Option>
-              <Option value="budget">Budget (≤₹30/hr)</Option>
-              <Option value="moderate">Moderate (₹30-50/hr)</Option>
-              <Option value="premium">{'Premium (>₹50/hr)'}</Option>
-            </Select>
-          </Col>
-        </Row>
-      </div>
-
-      <div className="teachers-grid">
-        {loading ? (
-          <div className="loading-container">
-            <Spin size="large" />
+      {hasNoHiredTeachers ? (
+        <div className="empty-hired-container">
+          <div className="icon-wrapper">
+            <div className="main-icon-circle">
+              <TeamOutlined className="team-icon" />
+            </div>
+            <div className="floating-accent">
+              <BookOutlined className="accent-icon" />
+            </div>
           </div>
-        ) : filteredTeachers.length === 0 ? (
-          <Empty
-            description="No teachers found matching your criteria"
-            className="empty-state"
-          />
-        ) : (
-          <Row gutter={[24, 24]}>
-            {filteredTeachers.map((teacher) => (
-              <Col key={teacher.teacher_id} xs={24} sm={12} lg={8} xl={6}>
-                <TeacherCard
-                  teacher={teacher}
-                  handleHireTeacher={handleHireTeacher}
-                  handleDismissTeacher={handleDismissTeacher}
-                  isHiredTeacher={true }
+          <h2 className="empty-title">No Teachers Hired Yet</h2>
+          <p className="empty-description">
+            You haven't hired any teachers yet. Explore our talented teachers and find the perfect match for your learning goals.
+          </p>
+          <Button
+            type="primary"
+            size="large"
+            className="explore-btn"
+            onClick={() => navigate('/explore/teachers')}
+          >
+            Explore Teachers
+          </Button>
+          <div className="decorative-blob blob-1" />
+          <div className="decorative-blob blob-2" />
+        </div>
+      ) : (
+        <>
+          <div className="filters-section">
+            <Row gutter={[16, 16]} align="middle">
+              <Col xs={24} sm={12} md={8} lg={6}>
+                <Search
+                  placeholder="Search teachers, subjects..."
+                  prefix={<SearchOutlined />}
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="search-input"
                 />
               </Col>
-            ))}
-          </Row>
-        )}
-      </div>
+              <Col xs={12} sm={6} md={4}>
+                <Select
+                  value={selectedSubject}
+                  onChange={setSelectedSubject}
+                  className="filter-select"
+                  placeholder="Subject"
+                >
+                  <Option value="all">All Subjects</Option>
+                  <Option value="Mathematics">Mathematics</Option>
+                  <Option value="Physics">Physics</Option>
+                  <Option value="Chemistry">Chemistry</Option>
+                  <Option value="Biology">Biology</Option>
+                  <Option value="Science">Science</Option>
+                  <Option value="English Literature">English Literature</Option>
+                  <Option value="Writing">Writing</Option>
+                </Select>
+              </Col>
+              <Col xs={12} sm={6} md={4}>
+                <Select
+                  value={selectedLanguage}
+                  onChange={setSelectedLanguage}
+                  className="filter-select"
+                  placeholder="Language"
+                >
+                  <Option value="all">All Languages</Option>
+                  <Option value="English">English</Option>
+                  <Option value="Spanish">Spanish</Option>
+                  <Option value="French">French</Option>
+                  <Option value="Mandarin">Mandarin</Option>
+                </Select>
+              </Col>
+              <Col xs={12} sm={6} md={4}>
+                <Select
+                  value={priceRange}
+                  onChange={setPriceRange}
+                  className="filter-select"
+                  placeholder="Price Range"
+                >
+                  <Option value="all">All Prices</Option>
+                  <Option value="budget">Budget (≤₹30/hr)</Option>
+                  <Option value="moderate">Moderate (₹30-50/hr)</Option>
+                  <Option value="premium">{'Premium (>₹50/hr)'}</Option>
+                </Select>
+              </Col>
+            </Row>
+          </div>
+
+          <div className="teachers-grid">
+            {loading ? (
+              <div className="loading-container">
+                <Spin size="large" />
+              </div>
+            ) : (
+              <Row gutter={[24, 24]}>
+                {filteredTeachers.map((teacher) => (
+                  <Col key={teacher.teacher_id} xs={24} sm={12} lg={8} xl={6}>
+                    <TeacherCard
+                      teacher={teacher}
+                      handleHireTeacher={handleHireTeacher}
+                      handleDismissTeacher={handleDismissTeacher}
+                      isHiredTeacher={true}
+                    />
+                  </Col>
+                ))}
+              </Row>
+            )}
+          </div>
+        </>
+      )}
     </div>
   );
 };

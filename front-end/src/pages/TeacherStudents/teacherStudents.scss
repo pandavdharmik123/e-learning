@@ -1,71 +1,26 @@
-
-$primary-color: #6366f1;
-$secondary-color: #2c3e50;
-$light-gray: #f5f5f5;
-$medium-gray: #d9d9d9;
-$dark-gray: #666;
-$text-color: #2c3e50;
-$white: #ffffff;
-$border-radius: 12px;
-$card-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-$hover-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
-$transition: all 0.3s ease;
-
-
-$math-color: #4285f4;
-$physics-color: #9c27b0;
+@import '../../styles/variables';
 
 .student-management-page {
-  padding: 12px;
-  background-color: $light-gray;
-  min-height: 100vh;
+  @include page-container;
 
   .page-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 18px;
+    @include page-header;
 
     .page-title {
-      margin: 0;
-      font-weight: 600;
-      color: $text-color;
-      font-size: 24px;
+      @include page-title;
     }
 
     .header-controls {
       display: flex;
       align-items: center;
-      gap: 16px;
+      gap: $sp-4;
 
       .search-input {
         width: 280px;
 
-        //.ant-input {
-
-
-
-
-
-
-        //
-
-
-
-        //
-
-
-
-        //
-
-
-
-
-        //}
-
         .ant-input-prefix {
-          color: #999;
-          left: 12px;
+          color: $text-muted;
+          left: $sp-3;
         }
       }
 
@@ -74,54 +29,44 @@ $physics-color: #9c27b0;
 
         .ant-select-selector {
           height: 40px !important;
-          border-radius: 6px !important;
-          //border: 1px solid $medium-gray !important;
+          border-radius: $radius-sm !important;
           display: flex !important;
           align-items: center !important;
-          font-size: 14px;
+          font-size: $font-sm;
           transition: $transition;
 
           .ant-select-selection-item {
-            color: $dark-gray;
+            color: $gray-600;
             font-weight: 500;
           }
         }
 
-        &:hover .ant-select-selector {
-          //border-color: $primary-color !important;
-        }
-
         &.ant-select-focused .ant-select-selector {
-          //border-color: $primary-color !important;
-          box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.1) !important;
+          box-shadow: 0 0 0 2px rgba($primary, 0.1) !important;
         }
 
         .ant-select-arrow {
-          color: #999;
+          color: $text-muted;
         }
       }
 
       .date-button {
-        background-color: $primary-color;
-        border-color: $primary-color;
-        border-radius: 6px;
+        background-color: $primary;
+        border-color: $primary;
+        border-radius: $radius-sm;
         height: 40px;
         display: flex;
         align-items: center;
-        gap: 8px;
+        gap: $sp-2;
         font-weight: 500;
-        font-size: 14px;
-        padding: 0 16px;
+        font-size: $font-sm;
+        padding: 0 $sp-4;
         transition: $transition;
 
         &:hover {
-          background-color: darken($primary-color, 8%);
-          border-color: darken($primary-color, 8%);
+          background-color: $primary-hover;
+          border-color: $primary-hover;
           transform: translateY(-1px);
-        }
-
-        .anticon {
-          font-size: 14px;
         }
       }
     }
@@ -129,36 +74,36 @@ $physics-color: #9c27b0;
 
   .student-card {
     background: $white;
-    border-radius: $border-radius;
-    box-shadow: $card-shadow;
+    border-radius: $radius-lg;
+    box-shadow: $shadow;
     transition: $transition;
     height: 100%;
     border: none;
     overflow: hidden;
 
     &:hover {
-      box-shadow: $hover-shadow;
+      box-shadow: $shadow-md;
       transform: translateY(-2px);
     }
 
     .ant-card-body {
-      padding: 20px;
+      padding: $sp-5;
     }
 
     .student-info {
       flex-direction: column;
       display: flex;
       align-items: flex-start;
-      gap: 16px;
+      gap: $sp-4;
 
       .student-avatar {
         flex-shrink: 0;
-        border: 2px solid #f0f0f0;
-        background-color: #f8f9fa;
+        border: 2px solid $gray-100;
+        background-color: $gray-50;
 
         .anticon {
-          color: $dark-gray;
-          font-size: 24px;
+          color: $gray-600;
+          font-size: $font-2xl;
         }
 
         img {
@@ -174,16 +119,16 @@ $physics-color: #9c27b0;
         text-align: left;
 
         .student-name {
-          margin: 0 0 4px 0 !important;
-          font-size: 16px !important;
+          margin: 0 0 $sp-1 0 !important;
+          font-size: $font-base !important;
           font-weight: 600 !important;
-          color: $text-color !important;
+          color: $gray-800 !important;
           line-height: 1.3 !important;
         }
 
         .student-email {
           display: block;
-          color: $dark-gray;
+          color: $gray-600;
           font-size: 13px;
           margin-bottom: 2px;
           line-height: 1.4;
@@ -191,42 +136,34 @@ $physics-color: #9c27b0;
 
         .student-phone {
           display: block;
-          color: $dark-gray;
+          color: $gray-600;
           font-size: 13px;
-          margin-bottom: 12px;
+          margin-bottom: $sp-3;
           line-height: 1.4;
         }
 
         .subject-tags {
-          margin-bottom: 12px;
+          margin-bottom: $sp-3;
           display: flex;
-          gap: 6px;
+          gap: $sp-2;
           flex-wrap: wrap;
 
           .subject-tag {
             border: none;
-            border-radius: 12px;
+            border-radius: $radius-lg;
             font-size: 11px;
-            padding: 2px 8px;
+            padding: 2px $sp-2;
             font-weight: 500;
             line-height: 1.4;
             margin: 0;
-
-            &.math {
-              background-color: $math-color;
-              color: $white;
-            }
-
-            &.physics {
-              background-color: $physics-color;
-              color: $white;
-            }
+            background-color: rgba($primary, 0.1);
+            color: $primary;
           }
         }
 
         .join-date {
-          color: #999;
-          font-size: 12px;
+          color: $text-muted;
+          font-size: $font-xs;
           line-height: 1.4;
         }
       }
@@ -235,38 +172,30 @@ $physics-color: #9c27b0;
 }
 
 @media (max-width: 1200px) {
-  .student-management-page {
-    .page-header {
-      .header-controls {
-        .search-input {
-          width: 240px;
-        }
-      }
-    }
+  .student-management-page .page-header .header-controls .search-input {
+    width: 240px;
   }
 }
 
 @media (max-width: 992px) {
-  .student-management-page {
-    .page-header {
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 12px;
+  .student-management-page .page-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: $sp-3;
 
-      .header-controls {
-        width: 100%;
-        justify-content: flex-start;
-        flex-wrap: wrap;
-        gap: 12px;
+    .header-controls {
+      width: 100%;
+      justify-content: flex-start;
+      flex-wrap: wrap;
+      gap: $sp-3;
 
-        .search-input {
-          flex: 1;
-          min-width: 200px;
-        }
+      .search-input {
+        flex: 1;
+        min-width: 200px;
+      }
 
-        .subject-filter {
-          width: 120px;
-        }
+      .subject-filter {
+        width: 120px;
       }
     }
   }
@@ -274,58 +203,34 @@ $physics-color: #9c27b0;
 
 @media (max-width: 768px) {
   .student-management-page {
-    padding: 16px;
+    padding: $sp-4;
 
     .page-header {
-      margin-bottom: 24px;
+      margin-bottom: $sp-6;
 
-      .page-title {
-        font-size: 20px;
-      }
+      .page-title { font-size: $font-xl; }
 
       .header-controls {
-        gap: 12px;
+        gap: $sp-3;
 
-        .search-input {
-          width: 100%;
-        }
-
-        .subject-filter {
-          flex: 1;
-          min-width: 100px;
-        }
-
-        .date-button {
-          flex: 1;
-          justify-content: center;
-          min-width: 80px;
-        }
+        .search-input { width: 100%; }
+        .subject-filter { flex: 1; min-width: 100px; }
+        .date-button { flex: 1; justify-content: center; min-width: 80px; }
       }
-    }
-
-    .students-grid {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
     }
 
     .student-card {
-      .ant-card-body {
-        padding: 16px;
-      }
+      .ant-card-body { padding: $sp-4; }
 
       .student-info {
         flex-direction: column;
         align-items: center;
         text-align: center;
-        gap: 12px;
+        gap: $sp-3;
 
         .student-details {
           width: 100%;
-
-          .subject-tags {
-            justify-content: center;
-          }
+          .subject-tags { justify-content: center; }
         }
       }
     }
@@ -333,18 +238,14 @@ $physics-color: #9c27b0;
 }
 
 @media (max-width: 576px) {
-  .student-management-page {
-    .page-header {
-      .header-controls {
-        flex-direction: column;
-        width: 100%;
+  .student-management-page .page-header .header-controls {
+    flex-direction: column;
+    width: 100%;
 
-        .search-input,
-        .subject-filter,
-        .date-button {
-          width: 100%;
-        }
-      }
+    .search-input,
+    .subject-filter,
+    .date-button {
+      width: 100%;
     }
   }
 }
@@ -354,52 +255,37 @@ $physics-color: #9c27b0;
 }
 
 @keyframes cardSlideIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-.student-management-page {
-  .subject-filter.ant-select-focused .ant-select-selector,
-  .date-button:focus-visible {
-    //outline: 2px solid $primary-color;
-    outline-offset: 2px;
-  }
-}
-
-// Empty Students State Styles
+// Empty Students State
 .empty-students-container {
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 80px 20px;
+  padding: 80px $sp-5;
   min-height: 400px;
   text-align: center;
   position: relative;
   overflow: hidden;
 
-  // Icon Wrapper with floating animation
   .icon-wrapper {
     position: relative;
-    margin-bottom: 24px;
+    margin-bottom: $sp-6;
     animation: float 3s ease-in-out infinite;
 
     .main-icon-circle {
       width: 120px;
       height: 120px;
       border-radius: 50%;
-      background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+      background: $primary-gradient;
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 10px 40px rgba(67, 233, 123, 0.35);
+      box-shadow: 0 10px 40px rgba(102, 126, 234, 0.3);
 
       .user-add-icon {
         font-size: 56px;
@@ -407,7 +293,6 @@ $physics-color: #9c27b0;
       }
     }
 
-    // Floating book icon
     .floating-book {
       position: absolute;
       top: -10px;
@@ -429,47 +314,40 @@ $physics-color: #9c27b0;
     }
   }
 
-  // Text Content
   .empty-title {
     font-size: 28px;
     font-weight: 700;
-    color: #1a1a1a;
-    margin-bottom: 12px;
+    color: $gray-900;
+    margin-bottom: $sp-3;
     letter-spacing: -0.5px;
   }
 
   .empty-description {
-    font-size: 16px;
-    color: #666;
+    font-size: $font-base;
+    color: $gray-500;
     max-width: 440px;
     line-height: 1.6;
-    margin-bottom: 32px;
+    margin-bottom: $sp-8;
   }
 
-  // Add Button
   .add-student-btn {
     height: 48px;
-    padding: 0 32px;
-    font-size: 16px;
+    padding: 0 $sp-8;
+    font-size: $font-base;
     font-weight: 600;
-    border-radius: 8px;
-    background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+    border-radius: $radius;
+    background: $primary-gradient;
     border: none;
-    box-shadow: 0 4px 16px rgba(67, 233, 123, 0.4);
-    transition: all 0.3s ease;
+    box-shadow: 0 4px 16px rgba(102, 126, 234, 0.4);
+    transition: $transition;
 
     &:hover {
       transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(67, 233, 123, 0.5);
-      background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
-    }
-
-    &:active {
-      transform: translateY(0);
+      box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
+      background: $primary-gradient;
     }
   }
 
-  // Decorative Background Blobs
   .decorative-blob {
     position: absolute;
     z-index: -1;
@@ -480,7 +358,7 @@ $physics-color: #9c27b0;
       width: 100px;
       height: 100px;
       border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
-      background: linear-gradient(135deg, rgba(67, 233, 123, 0.12) 0%, rgba(56, 249, 215, 0.12) 100%);
+      background: linear-gradient(135deg, rgba(102, 126, 234, 0.12) 0%, rgba(118, 75, 162, 0.12) 100%);
       animation: morph 8s ease-in-out infinite;
     }
 
@@ -496,135 +374,34 @@ $physics-color: #9c27b0;
   }
 }
 
-// Animations
 @keyframes float {
-  0%, 100% {
-    transform: translateY(0px);
-  }
-  50% {
-    transform: translateY(-20px);
-  }
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-20px); }
 }
 
 @keyframes pulse {
-  0%, 100% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.1);
-  }
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
 }
 
 @keyframes morph {
-  0%, 100% {
-    border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
-  }
-  25% {
-    border-radius: 58% 42% 75% 25% / 76% 46% 54% 24%;
-  }
-  50% {
-    border-radius: 50% 50% 33% 67% / 55% 27% 73% 45%;
-  }
-  75% {
-    border-radius: 33% 67% 58% 42% / 63% 68% 32% 37%;
-  }
+  0%, 100% { border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%; }
+  25% { border-radius: 58% 42% 75% 25% / 76% 46% 54% 24%; }
+  50% { border-radius: 50% 50% 33% 67% / 55% 27% 73% 45%; }
+  75% { border-radius: 33% 67% 58% 42% / 63% 68% 32% 37%; }
 }
 
-// Responsive Design
 @media (max-width: 768px) {
   .empty-students-container {
-    padding: 60px 20px;
+    padding: 60px $sp-5;
 
-    .icon-wrapper {
-      .main-icon-circle {
-        width: 100px;
-        height: 100px;
-
-        .user-add-icon {
-          font-size: 48px;
-        }
-      }
-
-      .floating-book {
-        width: 35px;
-        height: 35px;
-
-        .book-icon {
-          font-size: 18px;
-        }
-      }
+    .icon-wrapper .main-icon-circle {
+      width: 100px;
+      height: 100px;
+      .user-add-icon { font-size: 48px; }
     }
 
-    .empty-title {
-      font-size: 24px;
-    }
-
-    .empty-description {
-      font-size: 14px;
-      max-width: 340px;
-    }
-
-    .add-student-btn {
-      height: 44px;
-      padding: 0 24px;
-      font-size: 15px;
-    }
-
-    .decorative-blob {
-      &.blob-1 {
-        width: 70px;
-        height: 70px;
-      }
-
-      &.blob-2 {
-        width: 60px;
-        height: 60px;
-      }
-    }
-  }
-}
-
-@media (max-width: 480px) {
-  .empty-students-container {
-    padding: 40px 16px;
-
-    .icon-wrapper {
-      margin-bottom: 20px;
-
-      .main-icon-circle {
-        width: 80px;
-        height: 80px;
-
-        .user-add-icon {
-          font-size: 40px;
-        }
-      }
-
-      .floating-book {
-        width: 30px;
-        height: 30px;
-        top: -8px;
-        right: -8px;
-
-        .book-icon {
-          font-size: 16px;
-        }
-      }
-    }
-
-    .empty-title {
-      font-size: 20px;
-      margin-bottom: 10px;
-    }
-
-    .empty-description {
-      font-size: 14px;
-      margin-bottom: 24px;
-    }
-
-    .add-student-btn {
-      width: 100%;
-      max-width: 280px;
-    }
+    .empty-title { font-size: $font-2xl; }
+    .empty-description { font-size: $font-sm; max-width: 340px; }
   }
 }

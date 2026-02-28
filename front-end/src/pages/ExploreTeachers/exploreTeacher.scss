@@ -1,21 +1,10 @@
+@import '../../styles/variables';
 
-$primary-color: #ff6b35;
-$secondary-color: #2c3e50;
-$light-gray: #f8f9fa;
-$medium-gray: #e9ecef;
-$dark-gray: #6c757d;
-$text-color: #2c3e50;
-$white: #ffffff;
-$success-color: #52c41a;
-$border-radius: 12px;
-$card-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
-$hover-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
-$transition: all 0.3s ease;
+$card-shadow-teacher: 0 4px 16px rgba(0, 0, 0, 0.08);
+$hover-shadow-teacher: 0 8px 24px rgba(0, 0, 0, 0.12);
 
 .explore-teachers-page {
-  padding: 12px;
-  background: $light-gray;
-  min-height: 100vh;
+  @include page-container;
 
   &.normal {
     margin-top: 72px;
@@ -23,34 +12,29 @@ $transition: all 0.3s ease;
 
   .page-header {
     text-align: center;
-    margin-bottom: 32px;
+    margin-bottom: $sp-8;
 
     .page-title {
-      color: $text-color;
-      margin-bottom: 8px;
+      margin-bottom: $sp-2;
       font-weight: 700;
-      background: linear-gradient(135deg, $primary-color 0%, #f7931e 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
+      font-size: $font-2xl;
+      color: $gray-800;
     }
 
     .page-subtitle {
-      color: $dark-gray;
-      font-size: 16px;
+      color: $text-secondary;
+      font-size: $font-base;
     }
   }
 
   .filters-section {
-    background: $white;
-    padding: 24px;
-    border-radius: $border-radius;
-    box-shadow: $card-shadow;
-    margin-bottom: 32px;
+    @include card;
+    padding: $sp-6;
+    margin-bottom: $sp-8;
 
     .search-input {
       .ant-input-prefix {
-        color: $dark-gray;
+        color: $text-secondary;
       }
     }
 
@@ -59,10 +43,6 @@ $transition: all 0.3s ease;
 
       .ant-select-selector {
         border: none !important;
-        //border-radius: 8px !important;
-        //padding: 4px 8px !important;
-        //height: 40px !important;
-        //transition: $transition;
       }
 
       &:hover .ant-select-selector {
@@ -71,7 +51,6 @@ $transition: all 0.3s ease;
 
       &.ant-select-focused .ant-select-selector {
         border-color: transparent !important;
-        //box-shadow: 0 0 0 2px rgba(255, 107, 53, 0.1) !important;
       }
     }
   }
@@ -82,28 +61,22 @@ $transition: all 0.3s ease;
       justify-content: center;
       align-items: center;
       height: 200px;
-
-      .ant-spin {
-        .ant-spin-dot-item {
-          background-color: $primary-color;
-        }
-      }
     }
 
     .empty-state {
       margin: 64px 0;
 
       .ant-empty-description {
-        color: $dark-gray;
-        font-size: 16px;
+        color: $text-secondary;
+        font-size: $font-base;
       }
     }
   }
 }
 
 .teacher-card {
-  border-radius: $border-radius;
-  box-shadow: $card-shadow;
+  border-radius: $radius-lg;
+  box-shadow: $card-shadow-teacher;
   border: none;
   overflow: hidden;
   transition: $transition;
@@ -111,7 +84,7 @@ $transition: all 0.3s ease;
   height: 100%;
 
   &:hover {
-    box-shadow: $hover-shadow;
+    box-shadow: $hover-shadow-teacher;
     transform: translateY(-4px);
   }
 
@@ -120,15 +93,15 @@ $transition: all 0.3s ease;
   }
 
   .ant-card-body {
-    padding: 12px 24px;
+    padding: $sp-3 $sp-6;
   }
 
   .card-header {
-    background: linear-gradient(135deg, $primary-color 0%, #f7931e 100%);
-    padding: 12px 18px;
+    background: $primary-gradient;
+    padding: $sp-3 $sp-4;
     display: flex;
     align-items: center;
-    gap: 16px;
+    gap: $sp-4;
     color: $white;
 
     .teacher-avatar {
@@ -147,23 +120,23 @@ $transition: all 0.3s ease;
 
       .teacher-name {
         color: $white;
-        margin: 0 0 8px 0;
-        font-size: 18px;
+        margin: 0 0 $sp-2 0;
+        font-size: $font-lg;
         font-weight: 600;
       }
 
       .rating-section {
         display: flex;
         align-items: center;
-        gap: 8px;
-        margin-bottom: 8px;
+        gap: $sp-2;
+        margin-bottom: $sp-2;
 
         .teacher-rating {
-
           display: inline-flex;
           align-content: center;
+
           .ant-rate-star {
-            font-size: 14px;
+            font-size: $font-sm;
 
             &.ant-rate-star-full .ant-rate-star-first {
               color: #fadb14;
@@ -173,15 +146,7 @@ $transition: all 0.3s ease;
 
         .rating-text {
           color: rgba(255, 255, 255, 0.9);
-          font-size: 12px;
-        }
-      }
-
-      .verified-badge {
-        .ant-badge-count {
-          background: transparent;
-          box-shadow: none;
-          font-size: 16px;
+          font-size: $font-xs;
         }
       }
     }
@@ -194,12 +159,12 @@ $transition: all 0.3s ease;
     .experience-section {
       display: flex;
       align-items: flex-start;
-      gap: 8px;
-      margin-bottom: 16px;
+      gap: $sp-2;
+      margin-bottom: $sp-4;
 
       .section-icon {
-        color: $primary-color;
-        font-size: 16px;
+        color: $primary;
+        font-size: $font-base;
         margin-top: 2px;
         flex-shrink: 0;
       }
@@ -208,13 +173,13 @@ $transition: all 0.3s ease;
     .subjects-list {
       display: flex;
       flex-wrap: wrap;
-      gap: 4px;
+      gap: $sp-1;
 
       .subject-tag {
         margin: 0;
         font-size: 11px;
-        padding: 2px 6px;
-        border-radius: 4px;
+        padding: 2px $sp-2;
+        border-radius: $sp-1;
         font-weight: 500;
       }
     }
@@ -222,39 +187,39 @@ $transition: all 0.3s ease;
     .languages-list {
       display: flex;
       flex-wrap: wrap;
-      gap: 4px;
+      gap: $sp-1;
 
       .language-tag {
         margin: 0;
-        background: lighten($primary-color, 35%);
-        color: $primary-color;
+        background: $primary-light;
+        color: $primary;
         border: none;
         font-size: 11px;
-        padding: 2px 6px;
-        border-radius: 4px;
+        padding: 2px $sp-2;
+        border-radius: $sp-1;
         font-weight: 500;
       }
     }
 
     .qualifications-text,
     .experience-text {
-      color: $text-color;
+      color: $gray-800;
       font-size: 13px;
       line-height: 1.4;
       flex: 1;
     }
 
     .card-divider {
-      margin: 16px 0;
-      border-color: $medium-gray;
+      margin: $sp-4 0;
+      border-color: $gray-200;
     }
 
     .bio-section {
-      margin-bottom: 16px;
+      margin-bottom: $sp-4;
 
       .bio-text {
         margin: 0;
-        color: $dark-gray;
+        color: $text-secondary;
         font-size: 13px;
         line-height: 1.5;
       }
@@ -263,19 +228,19 @@ $transition: all 0.3s ease;
     .pricing-section {
       display: flex;
       justify-content: space-between;
-      margin-bottom: 20px;
-      background: $light-gray;
-      padding: 12px;
-      border-radius: 8px;
+      margin-bottom: $sp-5;
+      background: $gray-50;
+      padding: $sp-3;
+      border-radius: $radius;
 
       .price-item {
         display: flex;
         align-items: center;
-        gap: 8px;
+        gap: $sp-2;
 
         .price-icon {
-          color: $success-color;
-          font-size: 14px;
+          color: $success;
+          font-size: $font-sm;
         }
 
         .price-details {
@@ -284,14 +249,14 @@ $transition: all 0.3s ease;
 
           .price-label {
             font-size: 11px;
-            color: $dark-gray;
+            color: $text-secondary;
             line-height: 1;
           }
 
           .price-value {
-            font-size: 14px;
+            font-size: $font-sm;
             font-weight: 600;
-            color: $text-color;
+            color: $gray-800;
             line-height: 1.2;
           }
         }
@@ -299,20 +264,19 @@ $transition: all 0.3s ease;
     }
 
     .hire-btn {
-      background: linear-gradient(135deg, $primary-color 0%, #f7931e 100%);
+      background: $primary-gradient;
       border: none;
-      border-radius: 8px;
+      border-radius: $radius;
       height: 44px;
       font-weight: 600;
-      font-size: 14px;
-      box-shadow: 0 2px 8px rgba(255, 107, 53, 0.3);
+      font-size: $font-sm;
+      box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
       transition: $transition;
       width: 100%;
 
       &:hover {
         transform: translateY(-1px);
-        box-shadow: 0 4px 12px rgba(255, 107, 53, 0.4);
-        background: linear-gradient(135deg, #f7931e 0%, $primary-color 100%);
+        box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
       }
 
       &:active {
@@ -325,141 +289,208 @@ $transition: all 0.3s ease;
     }
   }
 }
+
 .ant-modal {
   .hire-confirm-btn {
-    background: linear-gradient(135deg, $primary-color 0%, #f7931e 100%);
+    background: $primary-gradient;
     border: none;
-    border-radius: 6px;
+    border-radius: $radius-sm;
     font-weight: 600;
 
     &:hover {
-      background: linear-gradient(135deg, #f7931e 0%, $primary-color 100%);
-    }
-  }
-}
-
-
-@media (max-width: 1200px) {
-  .explore-teachers-page {
-    .teachers-grid {
-      .ant-col-xl-6 {
-        flex: 0 0 33.333333%;
-        max-width: 33.333333%;
-      }
-    }
-  }
-}
-
-@media (max-width: 992px) {
-  .explore-teachers-page {
-    .teachers-grid {
-      .ant-col-lg-8 {
-        flex: 0 0 50%;
-        max-width: 50%;
-      }
+      background: $primary-gradient;
+      opacity: 0.9;
     }
   }
 }
 
 @media (max-width: 768px) {
   .explore-teachers-page {
-    padding: 16px;
+    padding: $sp-4;
 
     .page-header {
-      margin-bottom: 24px;
-
-      .page-title {
-        font-size: 24px;
-      }
-
-      .page-subtitle {
-        font-size: 14px;
-      }
+      margin-bottom: $sp-6;
+      .page-title { font-size: $font-2xl; }
+      .page-subtitle { font-size: $font-sm; }
     }
 
     .filters-section {
-      padding: 16px;
-
-      .ant-row {
-        .ant-col {
-          margin-bottom: 12px;
-
-          &:last-child {
-            margin-bottom: 0;
-          }
-        }
-      }
+      padding: $sp-4;
     }
 
     .teacher-card {
       .card-header {
-        padding: 16px;
+        padding: $sp-4;
         flex-direction: column;
         text-align: center;
-        gap: 12px;
-
-        .teacher-basic-info {
-          .teacher-name {
-            font-size: 16px;
-          }
-        }
+        gap: $sp-3;
+        .teacher-basic-info .teacher-name { font-size: $font-base; }
       }
 
       .card-content {
-        padding: 16px;
-
+        padding: $sp-4;
         .pricing-section {
           flex-direction: column;
-          gap: 8px;
-
-          .price-item {
-            justify-content: space-between;
-          }
+          gap: $sp-2;
+          .price-item { justify-content: space-between; }
         }
       }
     }
   }
 }
-
-@media (max-width: 576px) {
-  .explore-teachers-page {
-    .teachers-grid {
-      .ant-col-sm-12 {
-        flex: 0 0 100%;
-        max-width: 100%;
-      }
-    }
-  }
-}
-
 
 .teacher-card {
   animation: cardSlideIn 0.5s ease-out;
 }
 
 @keyframes cardSlideIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+// Empty Hired Teachers State
+.empty-hired-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 80px $sp-5;
+  min-height: 400px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+
+  .icon-wrapper {
+    position: relative;
+    margin-bottom: $sp-6;
+    animation: float 3s ease-in-out infinite;
+
+    .main-icon-circle {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      background: $primary-gradient;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 10px 40px rgba(102, 126, 234, 0.3);
+
+      .team-icon {
+        font-size: 56px;
+        color: white;
+      }
+    }
+
+    .floating-accent {
+      position: absolute;
+      top: -10px;
+      right: -10px;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: $warning;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4);
+      animation: pulse 2s ease-in-out infinite;
+
+      .accent-icon {
+        font-size: 20px;
+        color: #fff;
+      }
+    }
   }
-  to {
-    opacity: 1;
-    transform: translateY(0);
+
+  .empty-title {
+    font-size: 28px;
+    font-weight: 700;
+    color: $gray-900;
+    margin-bottom: $sp-3;
+    letter-spacing: -0.5px;
+  }
+
+  .empty-description {
+    font-size: $font-base;
+    color: $gray-500;
+    max-width: 440px;
+    line-height: 1.6;
+    margin-bottom: $sp-8;
+  }
+
+  .explore-btn {
+    height: 48px;
+    padding: 0 $sp-8;
+    font-size: $font-base;
+    font-weight: 600;
+    border-radius: $radius;
+    background: $primary-gradient;
+    border: none;
+    box-shadow: 0 4px 16px rgba(102, 126, 234, 0.4);
+    transition: $transition;
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
+      background: $primary-gradient;
+    }
+  }
+
+  .decorative-blob {
+    position: absolute;
+    z-index: -1;
+
+    &.blob-1 {
+      top: 20%;
+      left: 10%;
+      width: 100px;
+      height: 100px;
+      border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+      background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+      animation: morph 8s ease-in-out infinite;
+    }
+
+    &.blob-2 {
+      bottom: 20%;
+      right: 15%;
+      width: 80px;
+      height: 80px;
+      border-radius: 70% 30% 30% 70% / 70% 70% 30% 30%;
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.15) 0%, rgba(245, 158, 11, 0.1) 100%);
+      animation: morph 6s ease-in-out infinite;
+    }
   }
 }
 
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-20px); }
+}
 
-.ant-message {
-  .ant-message-success {
-    .anticon {
-      color: $success-color;
-    }
-  }
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
 
-  .ant-message-error {
-    .anticon {
-      color: $primary-color;
+@keyframes morph {
+  0%, 100% { border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%; }
+  25% { border-radius: 58% 42% 75% 25% / 76% 46% 54% 24%; }
+  50% { border-radius: 50% 50% 33% 67% / 55% 27% 73% 45%; }
+  75% { border-radius: 33% 67% 58% 42% / 63% 68% 32% 37%; }
+}
+
+@media (max-width: 768px) {
+  .empty-hired-container {
+    padding: 60px $sp-5;
+
+    .icon-wrapper .main-icon-circle {
+      width: 100px;
+      height: 100px;
+      .team-icon { font-size: 48px; }
     }
+
+    .empty-title { font-size: $font-2xl; }
+    .empty-description { font-size: $font-sm; max-width: 340px; }
   }
 }
 
@@ -468,14 +499,7 @@ $transition: all 0.3s ease;
 
   .ant-input-wrapper {
     height: 100%;
-    .ant-input-affix-wrapper {
-      height: 100% !important;
-
-
-    }
-    .ant-btn {
-      height: 100% !important;
-    }
+    .ant-input-affix-wrapper { height: 100% !important; }
+    .ant-btn { height: 100% !important; }
   }
-
 }
