@@ -10,6 +10,7 @@ import studentRoutes from './routes/students.js';
 import classRoutes from './routes/classes.js';
 import contentRoutes from './routes/content.js';
 import adminRoutes from './routes/admin.js';
+import documentRoutes from './routes/documents.js';
 
 const app = express();
 app.use(cors());
@@ -25,6 +26,7 @@ app.use('/', studentRoutes);
 app.use('/', classRoutes);
 app.use('/', contentRoutes);
 app.use('/', adminRoutes);
+app.use('/', documentRoutes);
 
 const port = process.env.PORT || 4000;
 app.listen(port, () => {

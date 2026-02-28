@@ -8,6 +8,7 @@ import HiredTeachers from '@pages/HiredTeachers';
 import TeacherStudents from '@pages/TeacherStudents';
 import ClassManagement from '@pages/Classes';
 import AdminUsersPage from '@pages/Users';
+import Documents from '@pages/Documents';
 
 export const publicRoutes = [
   { path: "/", element: <HomePage /> },
@@ -21,6 +22,7 @@ export const privateRoutes = [
   { path: "/dashboard/teachers", element: <HiredTeachers /> },
   { path: "/dashboard/students", element: <TeacherStudents /> },
   { path: "/dashboard/classes", element: <ClassManagement /> },
+  { path: "/dashboard/documents", element: <Documents /> },
   { path: "/dashboard/users", element: <AdminUsersPage /> },
   // { path: "/explore/teachers", element: <ExploreTeachers /> },
 ];

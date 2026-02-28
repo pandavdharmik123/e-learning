@@ -30,6 +30,7 @@ export default function Sidebar() {
     // { key: "/dashboard/books", icon: <BookOutlined />, label: "Books" },
     // { key: "/dashboard/materials", icon: <FileTextOutlined />, label: "Materials" },
     { key: "/dashboard/classes", icon: <CalendarOutlined />, label: "Classes", role:['student', 'teacher'] },
+    { key: "/dashboard/documents", icon: <FileTextOutlined />, label: "Documents", role:['student', 'teacher'] },
   ];
 
   return (
