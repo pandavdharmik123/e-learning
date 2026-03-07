@@ -9,8 +9,9 @@ import {
   Typography,
 } from 'antd';
 import { BookOutlined, DollarOutlined, GlobalOutlined, TeamOutlined, TrophyOutlined, UserOutlined } from '@ant-design/icons';
-import React from 'react';
+import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
+import PaymentModal from '../PaymentModal';
 const { Text, Title, Paragraph } = Typography;
 
 const getSubjectColor = (subject) => {
@@ -30,24 +31,19 @@ const getSubjectColor = (subject) => {
 export const  TeacherCard = ({ teacher, isExploreTeachers = false, handleHireTeacher, handleDismissTeacher, isDashboard = false, isHiredTeacher = false}) => {
 
   const { loading } = useSelector((state) => state.students);
+  const [paymentModalVisible, setPaymentModalVisible] = useState(false);
 
   const confirmHireTeacher = (teacher) => {
-    Modal.confirm({
-      title: 'Hire Teacher',
-      content: (
-        <div>
-          <p>Are you sure you want to hire <strong>{teacher?.user?.first_name} {teacher?.user?.last_name}</strong>?</p>
-          <p>Hourly Rate: <strong>₹{teacher?.hourly_rate}</strong></p>
-          <p>Monthly Rate: <strong>₹{teacher?.monthly_rate}</strong></p>
-        </div>
-      ),
-      onOk: () => handleHireTeacher(teacher?.teacher_id),
-      okText: 'Hire Now',
-      cancelText: 'Cancel',
-      okButtonProps: {
-        className: 'hire-confirm-btn',
-      }
-    });
+    // Open payment modal instead of direct hire
+    setPaymentModalVisible(true);
+  };
+
+  const handlePaymentSuccess = () => {
+    // Refresh the teacher list or update UI
+    if (handleHireTeacher) {
+      // This will be called after successful payment
+      // The payment verification already hires the teacher
+    }
   };
 
   const confirmDismissTeacher = (teacher) => {
@@ -208,6 +204,13 @@ export const  TeacherCard = ({ teacher, isExploreTeachers = false, handleHireTea
           </Button>
         )}
       </div>
+
+      <PaymentModal
+        visible={paymentModalVisible}
+        onCancel={() => setPaymentModalVisible(false)}
+        teacher={teacher}
+        onSuccess={handlePaymentSuccess}
+      />
     </Card>
   );
 };

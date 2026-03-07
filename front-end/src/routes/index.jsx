@@ -9,6 +9,8 @@ import TeacherStudents from '@pages/TeacherStudents';
 import ClassManagement from '@pages/Classes';
 import AdminUsersPage from '@pages/Users';
 import Documents from '@pages/Documents';
+import AdminPayments from '@pages/AdminPayments';
+import UserPayments from '@pages/UserPayments';
 
 export const publicRoutes = [
   { path: "/", element: <HomePage /> },
@@ -24,5 +26,7 @@ export const privateRoutes = [
   { path: "/dashboard/classes", element: <ClassManagement /> },
   { path: "/dashboard/documents", element: <Documents /> },
   { path: "/dashboard/users", element: <AdminUsersPage /> },
+  { path: "/dashboard/payments", element: <UserPayments /> },
+  { path: "/dashboard/admin/payments", element: <AdminPayments /> },
   // { path: "/explore/teachers", element: <ExploreTeachers /> },
 ];

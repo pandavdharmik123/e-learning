@@ -6,8 +6,9 @@ import {
   FileTextOutlined,
   CalendarOutlined,
   UserOutlined,
+  DollarOutlined,
 } from '@ant-design/icons';
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 import './sidebar.scss';
 
@@ -16,8 +17,8 @@ const sidebarWidth = 200;
 const headerHeight = 79;
 
 export default function Sidebar() {
-
   const navigate = useNavigate();
+  const location = useLocation();
   const { user } = useSelector((state) => state.auth);
 
 
@@ -27,10 +28,12 @@ export default function Sidebar() {
     { key: "/dashboard/students", icon: <TeamOutlined />, label: "Students", role:['teacher'] },
     { key: "/dashboard/teachers", icon: <TeamOutlined />, label: "Teachers", role:['student'] },
     { key: "/dashboard/users", icon: <TeamOutlined />, label: "Users", role:['admin'] },
+    { key: "/dashboard/admin/payments", icon: <DollarOutlined />, label: "Payments", role:['admin'] },
     // { key: "/dashboard/books", icon: <BookOutlined />, label: "Books" },
     // { key: "/dashboard/materials", icon: <FileTextOutlined />, label: "Materials" },
     { key: "/dashboard/classes", icon: <CalendarOutlined />, label: "Classes", role:['student', 'teacher'] },
     { key: "/dashboard/documents", icon: <FileTextOutlined />, label: "Documents", role:['student', 'teacher'] },
+    { key: "/dashboard/payments", icon: <DollarOutlined />, label: "My Payments", role:['student'] },
   ];
 
   return (

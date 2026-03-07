@@ -5,6 +5,7 @@ import studentReducer from "./studentSlice";
 import classReducer from "./classSlice";
 import adminReducer from "./adminSlice";
 import documentReducer from "./documentSlice";
+import paymentReducer from "./paymentSlice";
 
 const store = configureStore({
   reducer: {
@@ -14,6 +15,7 @@ const store = configureStore({
     classes: classReducer,
     admin: adminReducer,
     documents: documentReducer,
+    payment: paymentReducer,
   },
 });
 

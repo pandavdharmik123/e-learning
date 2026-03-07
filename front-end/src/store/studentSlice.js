@@ -37,6 +37,12 @@ export const hireTeacher = createAsyncThunk(
       let errMessage = '';
       if(err?.response?.status === 409) {
         errMessage = err?.response?.data?.message;
+      } else if(err?.response?.status === 402) {
+        // Payment required - this should trigger payment modal
+        return rejectWithValue({ 
+          requiresPayment: true, 
+          message: err?.response?.data?.message || "Payment required" 
+        });
       }
       return rejectWithValue(errMessage || err.response?.data?.error || "Failed to hire teacher");
     }

@@ -41,10 +41,26 @@ export const deleteUser = createAsyncThunk(
     }
   }
 );
+
+export const getAllPayments = createAsyncThunk(
+  "admin/getAllPayments",
+  async (_, { rejectWithValue }) => {
+    try {
+      const res = await api.get("/admin/payments");
+      return res.data.payments;
+    } catch (err) {
+      return rejectWithValue(
+        err.response?.data?.error || "Failed to fetch payments"
+      );
+    }
+  }
+);
+
 const adminSlice = createSlice({
   name: "admin",
   initialState: {
     users: [],
+    payments: [],
     loading: false,
     error: null,
   },
@@ -93,6 +109,18 @@ const adminSlice = createSlice({
         );
       })
       .addCase(deleteUser.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      .addCase(getAllPayments.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getAllPayments.fulfilled, (state, action) => {
+        state.loading = false;
+        state.payments = action.payload;
+      })
+      .addCase(getAllPayments.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       });

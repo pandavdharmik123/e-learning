@@ -17,7 +17,8 @@
     "@aws-sdk/client-s3": "^3.496.0",
     "@aws-sdk/s3-request-presigner": "^3.496.0",
     "@prisma/client": "^5.9.1",
-    "mysql2": "^3.9.7"
+    "mysql2": "^3.9.7",
+    "razorpay": "^2.9.2"
   },
   "devDependencies": {
     "prisma": "^5.9.1",

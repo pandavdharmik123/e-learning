@@ -31,6 +31,12 @@ enum AccessLevel {
   specific_enrollment
 }
 
+enum PaymentStatus {
+  PENDING
+  SUCCESS
+  FAILED
+}
+
 model User {
   user_id        Int       @id @default(autoincrement())
   email          String    @unique
@@ -47,6 +53,7 @@ model User {
 
   teacher        Teacher?
   student        Student?
+  payments       Payment[]
 }
 
 model Teacher {
@@ -67,6 +74,7 @@ model Teacher {
   classes Class[]
   contents Content[]
   documents Document[]
+  payments Payment[]
 }
 
 model Student {
@@ -134,4 +142,25 @@ model DocumentRead {
   document Document @relation(fields: [document_id], references: [document_id], onDelete: Cascade)
 
   @@unique([document_id, student_id])
+}
+
+model Payment {
+  payment_id        Int          @id @default(autoincrement())
+  user_id           Int
+  teacher_id        Int
+  razorpay_order_id String       @unique
+  razorpay_payment_id String?
+  amount            Decimal      @db.Decimal(10,2)
+  currency          String       @default("INR")
+  status            PaymentStatus @default(PENDING)
+  payment_method    String?
+  created_at        DateTime     @default(now())
+  updated_at        DateTime     @updatedAt
+
+  user    User    @relation(fields: [user_id], references: [user_id], onDelete: Cascade)
+  teacher Teacher @relation(fields: [teacher_id], references: [teacher_id], onDelete: Cascade)
+
+  @@index([user_id])
+  @@index([teacher_id])
+  @@index([razorpay_order_id])
 }

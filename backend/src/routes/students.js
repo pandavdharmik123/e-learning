@@ -80,19 +80,37 @@ router.post("/teachers/:teacherId/hire", authMiddleware, requireStudent, async (
     const { teacherId } = req.params;
     const studentId = req.user.id;
 
-
     const teacher = await prisma.teacher.findUnique({
       where: { teacher_id: Number(teacherId) },
     });
     if (!teacher) return res.status(404).json({ error: "Teacher not found" });
 
+    // Check if already hired
     const updateData = teacher.hired_by_students || [];
-    if(!updateData.includes(studentId)) {
-      updateData.push(studentId);
-    } else {
-        return res.status(409).json({ teacher, message: "Teacher already hired by you!" });
+    if(updateData.includes(studentId)) {
+      return res.status(409).json({ teacher, message: "Teacher already hired by you!" });
     }
 
+    // Check for successful payment
+    const successfulPayment = await prisma.payment.findFirst({
+      where: {
+        user_id: studentId,
+        teacher_id: Number(teacherId),
+        status: 'SUCCESS',
+      },
+      orderBy: { created_at: 'desc' },
+    });
+
+    if (!successfulPayment) {
+      return res.status(402).json({ 
+        error: "Payment required",
+        message: "Please complete payment to hire this teacher",
+        requiresPayment: true,
+      });
+    }
+
+    // Hire the teacher
+    updateData.push(studentId);
     await prisma.teacher.update({
       where: { teacher_id: Number(teacherId) },
       data: {
