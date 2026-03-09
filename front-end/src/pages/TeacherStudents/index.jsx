@@ -61,8 +61,14 @@ const TeacherStudents = () => {
 
   const handleSelectSubject = (subject) => {
     setSelectedSubject(subject);
+    if (!subject || subject === '') {
+      setFilteredStudents(students);
+      return;
+    }
     const filtered = students.filter(student =>
-      student?.subjects_interested.includes(subject)
+      student?.subjects_interested?.some(subj => 
+        subj.toLowerCase().replace(/\s+/g, '_') === subject.toLowerCase().replace(/\s+/g, '_')
+      )
     );
     setFilteredStudents(filtered);
   }

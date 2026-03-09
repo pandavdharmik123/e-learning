@@ -1,17 +1,40 @@
-import  { useState } from 'react';
+import  { useState, useEffect } from 'react';
 import { Award, BookOpen, Calendar, CheckCircle, Globe, Play, Star, Users } from 'lucide-react';
 import FooterSection from '@components/FooterSection/index.jsx';
-import { features, stats, testimonials } from '@utils/homePageUtils.jsx';
+import { features, testimonials } from '@utils/homePageUtils.jsx';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import api from '../../api/axios';
 
 export default function HomePage() {
 
   const [activeTab, setActiveTab] = useState('student');
+  const [stats, setStats] = useState({
+    totalStudents: 0,
+    totalTeachers: 0,
+    totalSubjects: 0,
+    successRate: 0,
+  });
+  const [loading, setLoading] = useState(true);
 
   const navigate = useNavigate();
 
   const { user } = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    const fetchPublicStats = async () => {
+      try {
+        const res = await api.get('/stats/public');
+        setStats(res.data.stats);
+      } catch (err) {
+        console.error('Failed to fetch public stats:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchPublicStats();
+  }, []);
 
   return (
     <>
@@ -64,14 +87,30 @@ export default function HomePage() {
       <section className="px-6 py-16 bg-white">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            {stats.map((stat, index) => (
-              <div key={index} className="text-center">
-                <div className="text-3xl font-bold text-purple-600 mb-2">
-                  {stat.number}
-                </div>
-                <div className="text-gray-600">{stat.label}</div>
+            <div className="text-center">
+              <div className="text-3xl font-bold text-purple-600 mb-2">
+                {loading ? '...' : `${stats.totalStudents}${stats.totalStudents >= 1000 ? '+' : ''}`}
               </div>
-            ))}
+              <div className="text-gray-600">Students</div>
+            </div>
+            <div className="text-center">
+              <div className="text-3xl font-bold text-purple-600 mb-2">
+                {loading ? '...' : `${stats.totalTeachers}${stats.totalTeachers >= 100 ? '+' : ''}`}
+              </div>
+              <div className="text-gray-600">Teachers</div>
+            </div>
+            <div className="text-center">
+              <div className="text-3xl font-bold text-purple-600 mb-2">
+                {loading ? '...' : `${stats.totalSubjects}${stats.totalSubjects >= 50 ? '+' : ''}`}
+              </div>
+              <div className="text-gray-600">Subjects</div>
+            </div>
+            <div className="text-center">
+              <div className="text-3xl font-bold text-purple-600 mb-2">
+                {loading ? '...' : `${stats.successRate}%`}
+              </div>
+              <div className="text-gray-600">Success Rate</div>
+            </div>
           </div>
         </div>
       </section>

@@ -34,7 +34,8 @@
       "@assets/*": ["src/assets/*"],
       "@api/*": ["src/api/*"],
       "@store/*": ["src/store/*"],
-      "@contexts/*": ["src/contexts/*"]
+      "@contexts/*": ["src/contexts/*"],
+      "@constants/*": ["src/constants/*"]
     },
     "allowSyntheticDefaultImports": true
   },

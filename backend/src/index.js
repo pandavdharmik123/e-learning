@@ -12,6 +12,7 @@ import contentRoutes from './routes/content.js';
 import adminRoutes from './routes/admin.js';
 import documentRoutes from './routes/documents.js';
 import paymentRoutes from './routes/payments.js';
+import statsRoutes from './routes/stats.js';
 
 const app = express();
 app.use(cors());
@@ -29,6 +30,7 @@ app.use('/', contentRoutes);
 app.use('/', adminRoutes);
 app.use('/', documentRoutes);
 app.use('/', paymentRoutes);
+app.use('/', statsRoutes);
 
 const port = process.env.PORT || 4000;
 app.listen(port, () => {

@@ -12,6 +12,7 @@ import { BookOutlined, DollarOutlined, GlobalOutlined, TeamOutlined, TrophyOutli
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import PaymentModal from '../PaymentModal';
+import { formatSubject } from '@constants/subjects';
 const { Text, Title, Paragraph } = Typography;
 
 const getSubjectColor = (subject) => {
@@ -110,10 +111,10 @@ export const  TeacherCard = ({ teacher, isExploreTeachers = false, handleHireTea
               (subject, index) => (
                 <Tag
                   key={index}
-                  color={getSubjectColor(subject)}
+                  color={getSubjectColor(formatSubject(subject))}
                   className="subject-tag"
                 >
-                  {subject}
+                  {formatSubject(subject)}
                 </Tag>
               )
             )}

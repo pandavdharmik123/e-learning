@@ -18,6 +18,7 @@ import {
   getAllUsers,
   updateUserVerification,
 } from '@store/adminSlice.js';
+import { formatSubject } from '@constants/subjects';
 import { DeleteFilled } from '@ant-design/icons';
 import { notification, Popconfirm, Select } from 'antd';
 
@@ -154,7 +155,7 @@ const AdminUsersPage = () => {
                       </span>
                     {user.role === 'TEACHER' && user.teacher && (
                       <div className="role-details">
-                        {user.teacher.subjects.join(', ')} • {user.teacher.experience_years} years
+                        {user.teacher.subjects?.map(formatSubject).join(', ') || 'No subjects'} • {user.teacher.experience_years} years
                       </div>
                     )}
                     {user.role === 'STUDENT' && user.student && (

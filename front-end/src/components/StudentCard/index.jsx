@@ -3,6 +3,7 @@ import { UserOutlined } from '@ant-design/icons';
 import React from 'react';
 import _ from 'lodash';
 import { formatDate } from '@utils/commonFunctions.jsx';
+import { formatSubject } from '@constants/subjects';
 import './teacherStudents.scss';
 
 const { Text, Title } = Typography;
@@ -38,9 +39,9 @@ const StudentCard = ({ student }) => (
             {(student.subjects_interested || student?.student?.subjects_interested)?.map((subject, index) => (
               <Tag
                 key={index}
-                className={`subject-tag ${getSubjectClass(subject)}`}
+                className={`subject-tag ${getSubjectClass(formatSubject(subject))}`}
               >
-                {_.capitalize(subject)}
+                {formatSubject(subject)}
               </Tag>
             ))}
           </div>

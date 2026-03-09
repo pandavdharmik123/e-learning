@@ -28,6 +28,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchMe, updateProfile } from '@store/authSlice.js';
 import _ from 'lodash';
 import { getRoleColor } from '@utils/commonFunctions.jsx';
+import { SUBJECTS } from '@constants/subjects';
 import RoleTag from '@components/RoleTag/index.jsx';
 
 const { Option } = Select;
@@ -211,9 +212,11 @@ const ProfilePage = () => {
                     {isEditing ? (
                       <Form.Item name="subjects" label="Subjects">
                         <Select mode="multiple" placeholder="Select subjects">
-                          <Option value="mathematics">Mathematics</Option>
-                          <Option value="science">Science</Option>
-                          <Option value="english">English</Option>
+                          {SUBJECTS.map(subject => (
+                            <Option key={subject} value={subject}>
+                              {subject}
+                            </Option>
+                          ))}
                         </Select>
                       </Form.Item>
                     ) : (
@@ -312,10 +315,12 @@ const ProfilePage = () => {
                   <Card title="Interests" className="profile-card" extra={<HeartOutlined />}>
                     {isEditing ? (
                       <Form.Item name="subjects_interested" label="Subjects Interested">
-                        <Select mode="multiple">
-                          <Option value="mathematics">Mathematics</Option>
-                          <Option value="science">Science</Option>
-                          <Option value="english">English</Option>
+                        <Select mode="multiple" placeholder="Select interested subjects">
+                          {SUBJECTS.map(subject => (
+                            <Option key={subject} value={subject}>
+                              {subject}
+                            </Option>
+                          ))}
                         </Select>
                       </Form.Item>
                     ) : (

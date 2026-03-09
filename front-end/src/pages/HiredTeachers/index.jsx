@@ -16,6 +16,7 @@ import {
 import '../ExploreTeachers/exploreTeacher.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import { isEmpty } from 'lodash/lang.js';
+import { SUBJECTS, normalizeSubject } from '@constants/subjects';
 import {
   dismissTeacher,
   fetchHiredTeachers,
@@ -67,8 +68,11 @@ const HiredTeachers = () => {
     }
 
     if (selectedSubject !== 'all') {
+      const normalizedSelected = normalizeSubject(selectedSubject);
       filtered = filtered.filter(teacher =>
-        teacher.subjects?.includes(selectedSubject)
+        teacher.subjects && teacher.subjects.some(subj => 
+          normalizeSubject(subj) === normalizedSelected
+        )
       );
     }
 
@@ -176,13 +180,11 @@ const HiredTeachers = () => {
                   placeholder="Subject"
                 >
                   <Option value="all">All Subjects</Option>
-                  <Option value="Mathematics">Mathematics</Option>
-                  <Option value="Physics">Physics</Option>
-                  <Option value="Chemistry">Chemistry</Option>
-                  <Option value="Biology">Biology</Option>
-                  <Option value="Science">Science</Option>
-                  <Option value="English Literature">English Literature</Option>
-                  <Option value="Writing">Writing</Option>
+                  {SUBJECTS.map(subject => (
+                    <Option key={subject} value={subject}>
+                      {subject}
+                    </Option>
+                  ))}
                 </Select>
               </Col>
               <Col xs={12} sm={6} md={4}>

@@ -6,6 +6,7 @@ import classReducer from "./classSlice";
 import adminReducer from "./adminSlice";
 import documentReducer from "./documentSlice";
 import paymentReducer from "./paymentSlice";
+import statsReducer from "./statsSlice";
 
 const store = configureStore({
   reducer: {
@@ -16,6 +17,7 @@ const store = configureStore({
     admin: adminReducer,
     documents: documentReducer,
     payment: paymentReducer,
+    stats: statsReducer,
   },
 });
 

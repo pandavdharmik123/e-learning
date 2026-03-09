@@ -17,7 +17,8 @@ import {
 } from 'antd';
 import "./register.scss";
 import { useDispatch } from 'react-redux';
-import { register } from '@store/authSlice.js'
+import { register } from '@store/authSlice.js';
+import { SUBJECTS } from '@constants/subjects';
 
 const { Option } = Select;
 
@@ -186,9 +187,11 @@ const RegistrationPage = () => {
                       rules={[{ required: true }]}
                     >
                       <Select mode="multiple" placeholder="Select subjects">
-                        <Option value="mathematics">Mathematics</Option>
-                        <Option value="science">Science</Option>
-                        <Option value="english">English</Option>
+                        {SUBJECTS.map(subject => (
+                          <Option key={subject} value={subject}>
+                            {subject}
+                          </Option>
+                        ))}
                       </Select>
                     </Form.Item>
 
@@ -252,9 +255,11 @@ const RegistrationPage = () => {
                       name="subjects_interested"
                     >
                       <Select mode="multiple" placeholder="Select interested subjects">
-                        <Option value="mathematics">Mathematics</Option>
-                        <Option value="science">Science</Option>
-                        <Option value="english">English</Option>
+                        {SUBJECTS.map(subject => (
+                          <Option key={subject} value={subject}>
+                            {subject}
+                          </Option>
+                        ))}
                       </Select>
                     </Form.Item>
                   </Col>

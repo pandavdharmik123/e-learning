@@ -104,6 +104,50 @@
   }
 }
 
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: $sp-4;
+  margin-bottom: $sp-6;
+
+  .stat-card {
+    @include card;
+    padding: $sp-5;
+    display: flex;
+    align-items: center;
+    gap: $sp-4;
+    transition: $transition;
+
+    &:hover {
+      box-shadow: $shadow-md;
+      transform: translateY(-2px);
+    }
+
+    .stat-icon {
+      font-size: 36px;
+      color: $primary;
+      flex-shrink: 0;
+    }
+
+    .stat-content {
+      flex: 1;
+
+      .stat-value {
+        font-size: $font-2xl;
+        font-weight: 700;
+        color: $gray-900;
+        line-height: 1.2;
+      }
+
+      .stat-label {
+        font-size: $font-sm;
+        color: $text-secondary;
+        margin-top: $sp-1;
+      }
+    }
+  }
+}
+
 .dashboard-grid {
   display: flex;
   gap: $sp-3;
@@ -153,6 +197,23 @@
     .quote-text {
       font-size: $font-base;
       line-height: 1.6;
+    }
+  }
+
+  .stats-grid {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: $sp-3;
+
+    .stat-card {
+      padding: $sp-4;
+
+      .stat-icon {
+        font-size: 28px;
+      }
+
+      .stat-content .stat-value {
+        font-size: $font-xl;
+      }
     }
   }
 

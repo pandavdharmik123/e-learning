@@ -4,9 +4,9 @@ import {
   Book,
   FileText,
   Calendar,
-  MoreHorizontal,
-  Download,
-  Eye,
+  DollarSign,
+  UserCheck,
+  GraduationCap,
 } from 'lucide-react';
 import './dashboard.scss';
 import { useNavigate } from 'react-router-dom';
@@ -17,14 +17,16 @@ import { fetchStudentClasses, fetchTeacherClasses } from '@store/classSlice.js';
 import {fetchHiredTeachers} from "@store/studentSlice.js";
 import {getAllUsers} from "@store/adminSlice.js";
 import TeacherCard from "@components/TeacherCard/index.jsx";
+import { fetchStats } from '@store/statsSlice';
 
 const DashboardPage = () => {
   const [teachers, setTeachers] = useState([]);
   const [students, setStudents] = useState([]);
   const navigate = useNavigate();
 
-  // const { students: storeStudents } = useSelector(state => state.teachers);
+  const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
+  const { stats, loading: statsLoading } = useSelector((state) => state.stats);
 
   async function loadUsers(userRole) {
       if(userRole) {
@@ -41,10 +43,13 @@ const DashboardPage = () => {
           }
       }
   }
-  const dispatch = useDispatch();
-    useEffect(() => {
-        loadUsers(user?.role);
-    }, [user?.role]);
+
+  useEffect(() => {
+      if(user?.role) {
+          loadUsers(user?.role);
+          dispatch(fetchStats());
+      }
+  }, [user?.role, dispatch]);
 
     const handleAll = () => {
         if(user?.role === 'teacher') {
@@ -70,6 +75,115 @@ const DashboardPage = () => {
                 because it locates the source of our fear outside ourselves,
                 rather than within our own hearts.
               </p>
+            </div>
+
+            {/* Stats Cards */}
+            <div className="stats-grid">
+              {user?.role === 'admin' && (
+                <>
+                  <div className="stat-card">
+                    <Users className="stat-icon" />
+                    <div className="stat-content">
+                      <div className="stat-value">{stats.totalUsers || 0}</div>
+                      <div className="stat-label">Total Users</div>
+                    </div>
+                  </div>
+                  <div className="stat-card">
+                    <GraduationCap className="stat-icon" />
+                    <div className="stat-content">
+                      <div className="stat-value">{stats.totalTeachers || 0}</div>
+                      <div className="stat-label">Teachers</div>
+                    </div>
+                  </div>
+                  <div className="stat-card">
+                    <UserCheck className="stat-icon" />
+                    <div className="stat-content">
+                      <div className="stat-value">{stats.totalStudents || 0}</div>
+                      <div className="stat-label">Students</div>
+                    </div>
+                  </div>
+                  <div className="stat-card">
+                    <Calendar className="stat-icon" />
+                    <div className="stat-content">
+                      <div className="stat-value">{stats.totalClasses || 0}</div>
+                      <div className="stat-label">Classes</div>
+                    </div>
+                  </div>
+                  <div className="stat-card">
+                    <FileText className="stat-icon" />
+                    <div className="stat-content">
+                      <div className="stat-value">{stats.totalDocuments || 0}</div>
+                      <div className="stat-label">Documents</div>
+                    </div>
+                  </div>
+                  <div className="stat-card">
+                    <DollarSign className="stat-icon" />
+                    <div className="stat-content">
+                      <div className="stat-value">₹{(stats.totalRevenue || 0).toFixed(2)}</div>
+                      <div className="stat-label">Total Revenue</div>
+                    </div>
+                  </div>
+                </>
+              )}
+
+              {user?.role === 'teacher' && (
+                <>
+                  <div className="stat-card">
+                    <UserCheck className="stat-icon" />
+                    <div className="stat-content">
+                      <div className="stat-value">{stats.totalStudents || 0}</div>
+                      <div className="stat-label">My Students</div>
+                    </div>
+                  </div>
+                  <div className="stat-card">
+                    <Calendar className="stat-icon" />
+                    <div className="stat-content">
+                      <div className="stat-value">{stats.totalClasses || 0}</div>
+                      <div className="stat-label">My Classes</div>
+                    </div>
+                  </div>
+                  <div className="stat-card">
+                    <FileText className="stat-icon" />
+                    <div className="stat-content">
+                      <div className="stat-value">{stats.totalDocuments || 0}</div>
+                      <div className="stat-label">My Documents</div>
+                    </div>
+                  </div>
+                </>
+              )}
+
+              {user?.role === 'student' && (
+                <>
+                  <div className="stat-card">
+                    <GraduationCap className="stat-icon" />
+                    <div className="stat-content">
+                      <div className="stat-value">{stats.hiredTeachers || 0}</div>
+                      <div className="stat-label">Hired Teachers</div>
+                    </div>
+                  </div>
+                  <div className="stat-card">
+                    <Calendar className="stat-icon" />
+                    <div className="stat-content">
+                      <div className="stat-value">{stats.totalClasses || 0}</div>
+                      <div className="stat-label">Enrolled Classes</div>
+                    </div>
+                  </div>
+                  <div className="stat-card">
+                    <FileText className="stat-icon" />
+                    <div className="stat-content">
+                      <div className="stat-value">{stats.totalDocuments || 0}</div>
+                      <div className="stat-label">Accessible Documents</div>
+                    </div>
+                  </div>
+                  <div className="stat-card">
+                    <DollarSign className="stat-icon" />
+                    <div className="stat-content">
+                      <div className="stat-value">₹{(stats.totalSpent || 0).toFixed(2)}</div>
+                      <div className="stat-label">Total Spent</div>
+                    </div>
+                  </div>
+                </>
+              )}
             </div>
 
             <div className="dashboard-grid">
