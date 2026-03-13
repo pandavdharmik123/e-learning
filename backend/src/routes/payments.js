@@ -30,6 +30,11 @@ const requireAdmin = (req, res, next) => {
   next();
 };
 
+const requireTeacher = (req, res, next) => {
+  if (req.user?.role === 'teacher' || req.user?.role === 'admin') return next();
+  return res.status(403).json({ error: 'Teacher or admin only' });
+};
+
 // Validation schemas
 const CreateOrderDto = z.object({
   teacherId: z.number().int().positive(),
@@ -350,6 +355,65 @@ router.get('/admin/payments', authMiddleware, requireAdmin, async (req, res) => 
     });
   } catch (err) {
     console.error('Get all payments error:', err);
+    res.status(500).json({ error: 'Failed to fetch payments' });
+  }
+});
+
+// --- Teacher: Get My Payments (Earnings) ---
+router.get('/teacher/payments', authMiddleware, requireTeacher, async (req, res) => {
+  try {
+    const teacherId = req.user.id;
+
+    const payments = await prisma.payment.findMany({
+      where: { teacher_id: teacherId },
+      include: {
+        user: {
+          select: {
+            user_id: true,
+            first_name: true,
+            last_name: true,
+            email: true,
+            profile_picture: true,
+          },
+        },
+      },
+      orderBy: { created_at: 'desc' },
+    });
+
+    // Calculate earnings summary
+    const successfulPayments = payments.filter(p => p.status === 'SUCCESS');
+    const totalEarnings = successfulPayments.reduce((sum, p) => sum + Number(p.amount), 0);
+    const pendingPayments = payments.filter(p => p.status === 'PENDING');
+    const failedPayments = payments.filter(p => p.status === 'FAILED');
+
+    res.json({
+      payments: payments.map((p) => ({
+        payment_id: p.payment_id,
+        student: {
+          user_id: p.user.user_id,
+          name: `${p.user.first_name} ${p.user.last_name}`,
+          email: p.user.email,
+          profile_picture: p.user.profile_picture,
+        },
+        amount: Number(p.amount),
+        currency: p.currency,
+        status: p.status,
+        payment_method: p.payment_method,
+        razorpay_order_id: p.razorpay_order_id,
+        razorpay_payment_id: p.razorpay_payment_id,
+        created_at: p.created_at,
+        updated_at: p.updated_at,
+      })),
+      summary: {
+        totalEarnings: Number(totalEarnings.toFixed(2)),
+        totalPayments: payments.length,
+        successfulPayments: successfulPayments.length,
+        pendingPayments: pendingPayments.length,
+        failedPayments: failedPayments.length,
+      },
+    });
+  } catch (err) {
+    console.error('Get teacher payments error:', err);
     res.status(500).json({ error: 'Failed to fetch payments' });
   }
 });

@@ -8,7 +8,7 @@ import {
   Tag,
   Typography,
 } from 'antd';
-import { BookOutlined, DollarOutlined, GlobalOutlined, TeamOutlined, TrophyOutlined, UserOutlined } from '@ant-design/icons';
+import { BookOutlined, WalletOutlined, GlobalOutlined, TeamOutlined, TrophyOutlined, UserOutlined } from '@ant-design/icons';
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import PaymentModal from '../PaymentModal';
@@ -164,14 +164,14 @@ export const  TeacherCard = ({ teacher, isExploreTeachers = false, handleHireTea
             </div>
             <div className="pricing-section">
               <div className="price-item">
-                <DollarOutlined className="price-icon" />
+                <WalletOutlined className="price-icon" />
                 <div className="price-details">
                   <Text className="price-label">Hourly</Text>
                   <Text className="price-value">₹{teacher?.hourly_rate}</Text>
                 </div>
               </div>
               <div className="price-item">
-                <DollarOutlined className="price-icon" />
+                <WalletOutlined className="price-icon" />
                 <div className="price-details">
                   <Text className="price-label">Monthly</Text>
                   <Text className="price-value">₹{teacher?.monthly_rate}</Text>

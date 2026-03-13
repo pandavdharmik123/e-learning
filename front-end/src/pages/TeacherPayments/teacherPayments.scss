@@ -1,0 +1,136 @@
+@import '../../styles/variables';
+
+.teacher-payments-page {
+  @include page-container;
+
+  .page-header {
+    margin-bottom: $sp-6;
+
+    .page-title {
+      @include page-title;
+      margin-bottom: $sp-1;
+    }
+  }
+
+  .summary-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: $sp-4;
+    margin-bottom: $sp-6;
+
+    .summary-card {
+      @include card;
+      padding: $sp-5;
+      display: flex;
+      align-items: center;
+      gap: $sp-4;
+      transition: $transition;
+
+      &:hover {
+        box-shadow: $shadow-md;
+        transform: translateY(-2px);
+      }
+
+      &.earnings {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+
+        .summary-icon {
+          color: white;
+        }
+
+        .summary-content {
+          .summary-value {
+            color: white;
+          }
+
+          .summary-label {
+            color: rgba(255, 255, 255, 0.9);
+          }
+        }
+      }
+
+      .summary-icon {
+        font-size: 36px;
+        color: $primary;
+
+        &.success {
+          color: $success;
+        }
+
+        &.warning {
+          color: $warning;
+        }
+
+        &.error {
+          color: red;
+        }
+      }
+
+      .summary-content {
+        flex: 1;
+
+        .summary-value {
+          font-size: $font-2xl;
+          font-weight: 700;
+          color: $gray-900;
+          line-height: 1.2;
+        }
+
+        .summary-label {
+          font-size: $font-sm;
+          color: $text-secondary;
+          margin-top: $sp-1;
+        }
+      }
+    }
+  }
+
+  .filters-section {
+    @include card;
+    padding: $sp-4;
+    margin-bottom: $sp-4;
+    display: flex;
+    gap: $sp-4;
+    align-items: center;
+
+    .search-input {
+      flex: 1;
+      max-width: 400px;
+    }
+
+    .filter-select {
+      min-width: 150px;
+    }
+  }
+
+  .table-container {
+    @include card;
+    overflow: hidden;
+  }
+
+  .student-cell {
+    display: flex;
+    align-items: center;
+    gap: $sp-3;
+  }
+}
+
+@media (max-width: 768px) {
+  .teacher-payments-page {
+    padding: $sp-4;
+
+    .summary-cards {
+      grid-template-columns: 1fr;
+    }
+
+    .filters-section {
+      flex-direction: column;
+      align-items: stretch;
+
+      .search-input {
+        max-width: 100%;
+      }
+    }
+  }
+}

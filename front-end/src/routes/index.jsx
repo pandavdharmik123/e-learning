@@ -11,6 +11,7 @@ import AdminUsersPage from '@pages/Users';
 import Documents from '@pages/Documents';
 import AdminPayments from '@pages/AdminPayments';
 import UserPayments from '@pages/UserPayments';
+import TeacherPayments from '@pages/TeacherPayments';
 
 export const publicRoutes = [
   { path: "/", element: <HomePage /> },
@@ -27,6 +28,7 @@ export const privateRoutes = [
   { path: "/dashboard/documents", element: <Documents /> },
   { path: "/dashboard/users", element: <AdminUsersPage /> },
   { path: "/dashboard/payments", element: <UserPayments /> },
+  { path: "/dashboard/teacher/payments", element: <TeacherPayments /> },
   { path: "/dashboard/admin/payments", element: <AdminPayments /> },
   // { path: "/explore/teachers", element: <ExploreTeachers /> },
 ];

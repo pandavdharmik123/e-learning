@@ -4,7 +4,7 @@ import {
   EditOutlined,
   MailOutlined,
   PhoneOutlined,
-  DollarOutlined,
+  WalletOutlined,
   StarOutlined,
   FileTextOutlined,
   HeartOutlined,
@@ -268,14 +268,14 @@ const ProfilePage = () => {
                       <>
                         <div className="pricing-section">
                           <div className="price-item">
-                            <DollarOutlined className="price-icon" />
+                            <WalletOutlined className="price-icon" />
                             <div className="price-details">
                               <span className="price-label">Hourly</span>
                               <span className="price-value">₹{userProfile?.hourly_rate}</span>
                             </div>
                           </div>
                           <div className="price-item">
-                            <DollarOutlined className="price-icon" />
+                            <WalletOutlined className="price-icon" />
                             <div className="price-details">
                               <span className="price-label">Monthly</span>
                               <span className="price-value">₹{userProfile?.monthly_rate}</span>

@@ -68,7 +68,6 @@ router.get('/stats', authMiddleware, async (req, res) => {
         totalTeachers,
         totalStudents,
         totalClasses,
-        totalDocuments,
         totalPayments,
         successfulPayments,
       ] = await Promise.all([
@@ -76,10 +75,17 @@ router.get('/stats', authMiddleware, async (req, res) => {
         prisma.user.count({ where: { role: 'teacher', is_deleted: false } }),
         prisma.user.count({ where: { role: 'student', is_deleted: false } }),
         prisma.class.count(),
-        prisma.document.count(),
         prisma.payment.count(),
         prisma.payment.count({ where: { status: 'SUCCESS' } }),
       ]);
+
+      // Try to count documents, but handle if table doesn't exist
+      let totalDocuments = 0;
+      try {
+        totalDocuments = await prisma.document.count();
+      } catch (err) {
+        console.warn('Document table not found, skipping document count');
+      }
 
       const totalRevenue = await prisma.payment.aggregate({
         where: { status: 'SUCCESS' },
@@ -105,10 +111,15 @@ router.get('/stats', authMiddleware, async (req, res) => {
 
       const studentCount = teacher?.hired_by_students?.length || 0;
 
-      const [totalClasses, totalDocuments] = await Promise.all([
-        prisma.class.count({ where: { teacher_id: userId } }),
-        prisma.document.count({ where: { teacher_id: userId } }),
-      ]);
+      const totalClasses = await prisma.class.count({ where: { teacher_id: userId } });
+      
+      // Try to count documents, but handle if table doesn't exist
+      let totalDocuments = 0;
+      try {
+        totalDocuments = await prisma.document.count({ where: { teacher_id: userId } });
+      } catch (err) {
+        console.warn('Document table not found, skipping document count');
+      }
 
       stats = {
         totalStudents: studentCount,
@@ -139,17 +150,22 @@ router.get('/stats', authMiddleware, async (req, res) => {
       });
 
       // Count accessible documents
-      const allDocs = await prisma.document.findMany({
-        include: { teacher: { select: { hired_by_students: true } } },
-      });
-      const accessibleDocs = allDocs.filter((doc) => {
-        const ids = Array.isArray(doc.student_ids) ? doc.student_ids : [];
-        if (ids.length > 0) return ids.includes(userId);
-        const hired = Array.isArray(doc.teacher?.hired_by_students)
-          ? doc.teacher.hired_by_students
-          : [];
-        return hired.includes(userId);
-      });
+      let accessibleDocs = [];
+      try {
+        const allDocs = await prisma.document.findMany({
+          include: { teacher: { select: { hired_by_students: true } } },
+        });
+        accessibleDocs = allDocs.filter((doc) => {
+          const ids = Array.isArray(doc.student_ids) ? doc.student_ids : [];
+          if (ids.length > 0) return ids.includes(userId);
+          const hired = Array.isArray(doc.teacher?.hired_by_students)
+            ? doc.teacher.hired_by_students
+            : [];
+          return hired.includes(userId);
+        });
+      } catch (err) {
+        console.warn('Document table not found, skipping document count');
+      }
 
       // Count payments
       const [totalPayments, successfulPayments] = await Promise.all([

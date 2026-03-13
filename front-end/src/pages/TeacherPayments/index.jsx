@@ -8,6 +8,7 @@ import {
   Empty,
   Card,
   Typography,
+  Avatar,
 } from 'antd';
 import {
   SearchOutlined,
@@ -18,33 +19,33 @@ import {
   UserOutlined,
 } from '@ant-design/icons';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchPaymentHistory } from '@store/paymentSlice';
-import './userPayments.scss';
+import { fetchTeacherPayments } from '@store/teacherSlice';
+import './teacherPayments.scss';
 
 const { Search } = Input;
 const { Option } = Select;
 const { Text, Title } = Typography;
 
-const UserPayments = () => {
+const TeacherPayments = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState('ALL');
   const [filteredPayments, setFilteredPayments] = useState([]);
 
   const dispatch = useDispatch();
-  const { paymentHistory, loading } = useSelector((state) => state.payment);
+  const { payments, paymentSummary, loading } = useSelector((state) => state.teachers);
 
   useEffect(() => {
-    dispatch(fetchPaymentHistory());
+    dispatch(fetchTeacherPayments());
   }, [dispatch]);
 
   useEffect(() => {
-    let filtered = paymentHistory || [];
+    let filtered = payments || [];
 
     if (searchTerm) {
       filtered = filtered.filter(
         (payment) =>
-          payment.teacher?.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          payment.teacher?.email?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          payment.student?.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          payment.student?.email?.toLowerCase().includes(searchTerm.toLowerCase()) ||
           payment.razorpay_order_id?.toLowerCase().includes(searchTerm.toLowerCase())
       );
     }
@@ -54,7 +55,7 @@ const UserPayments = () => {
     }
 
     setFilteredPayments(filtered);
-  }, [searchTerm, statusFilter, paymentHistory]);
+  }, [searchTerm, statusFilter, payments]);
 
   const formatDate = (dateString) => {
     return new Date(dateString).toLocaleString('en-US', {
@@ -89,16 +90,21 @@ const UserPayments = () => {
       render: (id) => <Text code>#{id}</Text>,
     },
     {
-      title: 'Teacher',
-      key: 'teacher',
+      title: 'Student',
+      key: 'student',
       width: 250,
       render: (_, record) => (
-        <div className="teacher-cell">
-          <UserOutlined className="teacher-icon" />
+        <div className="student-cell">
+          <Avatar
+            src={record.student?.profile_picture}
+            icon={<UserOutlined />}
+            size="small"
+            style={{ marginRight: '8px' }}
+          />
           <div>
-            <div style={{ fontWeight: 500 }}>{record.teacher?.name || 'N/A'}</div>
+            <div style={{ fontWeight: 500 }}>{record.student?.name || 'N/A'}</div>
             <Text type="secondary" style={{ fontSize: '12px' }}>
-              {record.teacher?.email}
+              {record.student?.email}
             </Text>
           </div>
         </div>
@@ -111,7 +117,7 @@ const UserPayments = () => {
       width: 120,
       render: (amount, record) => (
         <div>
-          <Text strong style={{ fontSize: '16px' }}>
+          <Text strong style={{ fontSize: '16px', color: '#52c41a' }}>
             ₹{Number(amount).toFixed(2)}
           </Text>
           <div>
@@ -158,47 +164,51 @@ const UserPayments = () => {
     },
   ];
 
-  const successfulPayments = filteredPayments.filter((p) => p.status === 'SUCCESS');
-  const totalSpent = successfulPayments.reduce((sum, p) => sum + Number(p.amount), 0);
-
   return (
-    <div className="user-payments-page">
+    <div className="teacher-payments-page">
       <div className="page-header">
         <div>
-          <Title level={2} className="page-title">My Payments</Title>
-          <Text type="secondary">View your payment history</Text>
+          <Title level={2} className="page-title">My Earnings</Title>
+          <Text type="secondary">View payments received from students</Text>
         </div>
       </div>
 
       <div className="summary-cards">
-        <Card className="summary-card">
+        <Card className="summary-card earnings">
           <WalletOutlined className="summary-icon" />
           <div className="summary-content">
-            <div className="summary-value">₹{totalSpent.toFixed(2)}</div>
-            <div className="summary-label">Total Spent</div>
+            <div className="summary-value">
+              ₹{paymentSummary?.totalEarnings?.toFixed(2) || '0.00'}
+            </div>
+            <div className="summary-label">Total Earnings</div>
           </div>
         </Card>
         <Card className="summary-card">
           <CheckCircleOutlined className="summary-icon success" />
           <div className="summary-content">
-            <div className="summary-value">{successfulPayments.length}</div>
+            <div className="summary-value">{paymentSummary?.successfulPayments || 0}</div>
             <div className="summary-label">Successful Payments</div>
           </div>
         </Card>
         <Card className="summary-card">
           <ClockCircleOutlined className="summary-icon warning" />
           <div className="summary-content">
-            <div className="summary-value">
-              {filteredPayments.filter((p) => p.status === 'PENDING').length}
-            </div>
+            <div className="summary-value">{paymentSummary?.pendingPayments || 0}</div>
             <div className="summary-label">Pending</div>
+          </div>
+        </Card>
+        <Card className="summary-card">
+          <CloseCircleOutlined className="summary-icon error" />
+          <div className="summary-content">
+            <div className="summary-value">{paymentSummary?.failedPayments || 0}</div>
+            <div className="summary-label">Failed</div>
           </div>
         </Card>
       </div>
 
       <div className="filters-section">
         <Search
-          placeholder="Search by teacher name or order ID..."
+          placeholder="Search by student name or order ID..."
           prefix={<SearchOutlined />}
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
@@ -227,7 +237,7 @@ const UserPayments = () => {
             pagination={{ pageSize: 10, showSizeChanger: true }}
             scroll={{ x: 1000 }}
             locale={{
-              emptyText: <Empty description="No payment history found" />,
+              emptyText: <Empty description="No payments received yet" />,
             }}
           />
         </Spin>
@@ -236,4 +246,4 @@ const UserPayments = () => {
   );
 };
 
-export default UserPayments;
+export default TeacherPayments;

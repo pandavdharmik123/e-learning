@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Modal, Button, Spin, message, Typography } from 'antd';
-import { DollarOutlined, CheckCircleOutlined } from '@ant-design/icons';
+import { WalletOutlined, CheckCircleOutlined } from '@ant-design/icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { createPaymentOrder, verifyPayment, clearOrder } from '@store/paymentSlice';
 import { hireTeacher } from '@store/studentSlice';
@@ -111,12 +111,12 @@ const PaymentModal = ({ visible, onCancel, teacher, onSuccess }) => {
 
   return (
     <Modal
-      title={
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <DollarOutlined style={{ color: '#6366f1' }} />
-          <span>Complete Payment</span>
-        </div>
-      }
+    title={
+      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+        <WalletOutlined style={{ color: '#6366f1' }} />
+        <span>Complete Payment</span>
+      </div>
+    }
       open={visible}
       onCancel={onCancel}
       footer={[
@@ -129,7 +129,7 @@ const PaymentModal = ({ visible, onCancel, teacher, onSuccess }) => {
           loading={loading || !razorpayLoaded}
           onClick={handlePayment}
           disabled={!order || !razorpayLoaded}
-          icon={<DollarOutlined />}
+          icon={<WalletOutlined />}
         >
           Pay ₹{amount.toFixed(2)}
         </Button>,

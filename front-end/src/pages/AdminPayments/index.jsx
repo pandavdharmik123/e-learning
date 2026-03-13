@@ -13,7 +13,7 @@ import {
   CheckCircleOutlined,
   CloseCircleOutlined,
   ClockCircleOutlined,
-  DollarOutlined,
+  WalletOutlined,
 } from '@ant-design/icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllPayments } from '@store/adminSlice';
@@ -176,7 +176,7 @@ const AdminPayments = () => {
         </div>
         <div className="stats-summary">
           <div className="stat-card">
-            <DollarOutlined className="stat-icon" />
+            <WalletOutlined className="stat-icon" />
             <div>
               <div className="stat-value">
                 ₹{filteredPayments

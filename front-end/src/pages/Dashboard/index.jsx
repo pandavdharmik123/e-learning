@@ -4,7 +4,7 @@ import {
   Book,
   FileText,
   Calendar,
-  DollarSign,
+  IndianRupee,
   UserCheck,
   GraduationCap,
 } from 'lucide-react';
@@ -117,7 +117,7 @@ const DashboardPage = () => {
                     </div>
                   </div>
                   <div className="stat-card">
-                    <DollarSign className="stat-icon" />
+                    <IndianRupee className="stat-icon" />
                     <div className="stat-content">
                       <div className="stat-value">₹{(stats.totalRevenue || 0).toFixed(2)}</div>
                       <div className="stat-label">Total Revenue</div>
@@ -176,7 +176,7 @@ const DashboardPage = () => {
                     </div>
                   </div>
                   <div className="stat-card">
-                    <DollarSign className="stat-icon" />
+                    <IndianRupee className="stat-icon" />
                     <div className="stat-content">
                       <div className="stat-value">₹{(stats.totalSpent || 0).toFixed(2)}</div>
                       <div className="stat-label">Total Spent</div>

@@ -6,7 +6,7 @@ import {
   FileTextOutlined,
   CalendarOutlined,
   UserOutlined,
-  DollarOutlined,
+  WalletOutlined,
 } from '@ant-design/icons';
 import { useNavigate, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -28,12 +28,13 @@ export default function Sidebar() {
     { key: "/dashboard/students", icon: <TeamOutlined />, label: "Students", role:['teacher'] },
     { key: "/dashboard/teachers", icon: <TeamOutlined />, label: "Teachers", role:['student'] },
     { key: "/dashboard/users", icon: <TeamOutlined />, label: "Users", role:['admin'] },
-    { key: "/dashboard/admin/payments", icon: <DollarOutlined />, label: "Payments", role:['admin'] },
+    { key: "/dashboard/admin/payments", icon: <WalletOutlined />, label: "Payments", role:['admin'] },
     // { key: "/dashboard/books", icon: <BookOutlined />, label: "Books" },
     // { key: "/dashboard/materials", icon: <FileTextOutlined />, label: "Materials" },
     { key: "/dashboard/classes", icon: <CalendarOutlined />, label: "Classes", role:['student', 'teacher'] },
     { key: "/dashboard/documents", icon: <FileTextOutlined />, label: "Documents", role:['student', 'teacher'] },
-    { key: "/dashboard/payments", icon: <DollarOutlined />, label: "My Payments", role:['student'] },
+    { key: "/dashboard/payments", icon: <WalletOutlined />, label: "My Payments", role:['student'] },
+    { key: "/dashboard/teacher/payments", icon: <WalletOutlined />, label: "My Earnings", role:['teacher'] },
   ];
 
   return (
