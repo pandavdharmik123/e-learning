@@ -15,6 +15,7 @@ export function requireTeacher(req, res, next) {
 const TeacherDto = z.object({
   subjects: z.array(z.string()).optional(),
   qualifications: z.string().optional(),
+  university: z.string().optional(),
   experience_years: z.number().int().nonnegative().optional(),
   hourly_rate: z.number().nonnegative().optional(),
   monthly_rate: z.number().nonnegative().optional(),
@@ -33,6 +34,7 @@ router.post('/teacher/me', authMiddleware, requireTeacher, async (req, res) => {
     update: { 
       subjects: parsed.data.subjects ?? undefined,
       qualifications: parsed.data.qualifications,
+      university: parsed.data.university,
       experience_years: parsed.data.experience_years,
       hourly_rate: parsed.data.hourly_rate,
       monthly_rate: parsed.data.monthly_rate,
@@ -43,6 +45,7 @@ router.post('/teacher/me', authMiddleware, requireTeacher, async (req, res) => {
       teacher_id: req.user.id,
       subjects: parsed.data.subjects ?? undefined,
       qualifications: parsed.data.qualifications,
+      university: parsed.data.university,
       experience_years: parsed.data.experience_years,
       hourly_rate: parsed.data.hourly_rate,
       monthly_rate: parsed.data.monthly_rate,

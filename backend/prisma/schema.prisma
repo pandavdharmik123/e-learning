@@ -61,6 +61,7 @@ model Teacher {
   subjects         Json?
   language         Json?
   qualifications   String?
+  university       String?
   experience_years Int? 
   hourly_rate      Decimal? @db.Decimal(10,2)
   monthly_rate     Decimal? @db.Decimal(10,2)
