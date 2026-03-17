@@ -13,6 +13,7 @@ import adminRoutes from './routes/admin.js';
 import documentRoutes from './routes/documents.js';
 import paymentRoutes from './routes/payments.js';
 import statsRoutes from './routes/stats.js';
+import subjectRoutes from './routes/subjects.js';
 
 const app = express();
 app.use(cors());
@@ -31,6 +32,7 @@ app.use('/', adminRoutes);
 app.use('/', documentRoutes);
 app.use('/', paymentRoutes);
 app.use('/', statsRoutes);
+app.use('/', subjectRoutes);
 
 const port = process.env.PORT || 4000;
 app.listen(port, () => {

@@ -92,6 +92,25 @@ const ClassModal = ({
                 showTime
                 format="YYYY-MM-DD HH:mm"
                 style={{ width: '100%' }}
+                disabledDate={(current) => {
+                  if (!current) return false;
+                  return (
+                    current.isBefore(dayjs(), 'day') ||
+                    current.isAfter(dayjs().add(1, 'month'), 'day')
+                  );
+                }}
+                disabledTime={(date) => {
+                  if (!date || !date.isSame(dayjs(), 'day')) return {};
+                  const now = dayjs();
+                  return {
+                    disabledHours: () =>
+                      Array.from({ length: now.hour() }, (_, i) => i),
+                    disabledMinutes: (selectedHour) =>
+                      selectedHour === now.hour()
+                        ? Array.from({ length: now.minute() + 1 }, (_, i) => i)
+                        : [],
+                  };
+                }}
               />
             </Form.Item>
           </Col>

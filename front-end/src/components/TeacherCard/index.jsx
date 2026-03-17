@@ -53,7 +53,6 @@ export const  TeacherCard = ({ teacher, isExploreTeachers = false, handleHireTea
       content: (
           <div>
             <p>Are you sure you want to dismiss <strong>{teacher?.user?.first_name} {teacher?.user?.last_name}</strong>?</p>
-            <p>Hourly Rate: <strong>₹{teacher?.hourly_rate}</strong></p>
             <p>Monthly Rate: <strong>₹{teacher?.monthly_rate}</strong></p>
           </div>
       ),
@@ -163,13 +162,6 @@ export const  TeacherCard = ({ teacher, isExploreTeachers = false, handleHireTea
               </Paragraph>
             </div>
             <div className="pricing-section">
-              <div className="price-item">
-                <WalletOutlined className="price-icon" />
-                <div className="price-details">
-                  <Text className="price-label">Hourly</Text>
-                  <Text className="price-value">₹{teacher?.hourly_rate}</Text>
-                </div>
-              </div>
               <div className="price-item">
                 <WalletOutlined className="price-icon" />
                 <div className="price-details">

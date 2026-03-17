@@ -7,6 +7,7 @@ import adminReducer from "./adminSlice";
 import documentReducer from "./documentSlice";
 import paymentReducer from "./paymentSlice";
 import statsReducer from "./statsSlice";
+import subjectReducer from "./subjectSlice";
 
 const store = configureStore({
   reducer: {
@@ -18,6 +19,7 @@ const store = configureStore({
     documents: documentReducer,
     payment: paymentReducer,
     stats: statsReducer,
+    subjects: subjectReducer,
   },
 });
 

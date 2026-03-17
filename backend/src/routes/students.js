@@ -168,22 +168,73 @@ router.get("/student/me/teachers", authMiddleware, requireStudent, async (req, r
   try {
     const studentId = req.user.id;
 
-    const teachers = await prisma.teacher.findMany({
-      where: {
-        hired_by_students: { array_contains: studentId },
-      },
+    const allTeachers = await prisma.teacher.findMany({
       include: {
         user: { select: { first_name: true, last_name: true, profile_picture: true } },
       },
     });
 
-    res.json({ teachers });
+    const hired = allTeachers.filter((t) => {
+      const hiredIds = Array.isArray(t.hired_by_students) ? t.hired_by_students : [];
+      return hiredIds.includes(studentId);
+    });
+
+    res.json({ teachers: hired });
   } catch (err) {
     console.error("Fetch hired teachers error:", err);
     res.status(500).json({ error: "Something went wrong" });
   }
 });
 
+// --- Explore teachers: only those teaching subjects the student is interested in ---
+router.get("/student/explore/teachers", authMiddleware, requireStudent, async (req, res) => {
+  try {
+    const studentId = req.user.id;
 
+    const student = await prisma.student.findUnique({
+      where: { student_id: studentId },
+      select: { subjects_interested: true },
+    });
+
+    const studentSubjects = Array.isArray(student?.subjects_interested)
+      ? student.subjects_interested
+      : [];
+
+    const allTeachers = await prisma.teacher.findMany({
+      include: {
+        user: {
+          select: {
+            first_name: true,
+            last_name: true,
+            profile_picture: true,
+            user_id: true,
+            email: true,
+          },
+        },
+      },
+      orderBy: { teacher_id: "asc" },
+    });
+
+    // Filter: teacher not already hired by this student
+    let teachers = allTeachers.filter((t) => {
+      const hiredIds = Array.isArray(t.hired_by_students) ? t.hired_by_students : [];
+      return !hiredIds.includes(studentId);
+    });
+
+    // Filter: teacher teaches at least one subject the student is interested in
+    if (studentSubjects.length > 0) {
+      teachers = teachers.filter((t) => {
+        const teacherSubjects = Array.isArray(t.subjects) ? t.subjects : [];
+        const overlap = teacherSubjects.some((s) => studentSubjects.includes(s));
+        return overlap;
+      });
+    }
+
+    res.json({ teachers, studentSubjects: studentSubjects });
+  } catch (err) {
+    console.error("Fetch explore teachers error:", err);
+    res.status(500).json({ error: "Something went wrong" });
+  }
+});
 
 export default router;

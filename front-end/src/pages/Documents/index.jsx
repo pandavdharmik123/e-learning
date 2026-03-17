@@ -36,6 +36,7 @@ import {
   getDocumentSignedUrl,
 } from '@store/documentSlice';
 import { fetchTeacherStudents } from '@store/teacherSlice';
+import { fetchMe } from '@store/authSlice';
 import './documents.scss';
 
 const { Dragger } = Upload;
@@ -48,15 +49,17 @@ const Documents = () => {
   const [form] = Form.useForm();
 
   const dispatch = useDispatch();
-  const { user } = useSelector((state) => state.auth);
+  const { user, profile } = useSelector((state) => state.auth);
   const { documents, reads, loading } = useSelector((state) => state.documents);
   const { students } = useSelector((state) => state.teachers);
 
   const isTeacher = user?.role === 'teacher';
+  const teacherSubjects = profile?.teacher?.subjects || [];
 
   useEffect(() => {
     dispatch(fetchDocuments());
     if (isTeacher) {
+      dispatch(fetchMe());
       dispatch(fetchTeacherStudents());
     }
   }, [user?.role]);
@@ -72,6 +75,7 @@ const Documents = () => {
     setEditingDoc(doc);
     form.setFieldsValue({
       title: doc.title,
+      subject: doc.subject,
       description: doc.description,
       student_ids: Array.isArray(doc.student_ids) ? doc.student_ids : [],
     });
@@ -84,6 +88,7 @@ const Documents = () => {
       const values = await form.validateFields();
       const formData = new FormData();
       formData.append('title', values.title);
+      formData.append('subject', values.subject);
       if (values.description) formData.append('description', values.description);
       if (values.student_ids?.length) {
         formData.append('student_ids', JSON.stringify(values.student_ids));
@@ -170,6 +175,13 @@ const Documents = () => {
           </div>
         </div>
       ),
+    },
+    {
+      title: 'Subject',
+      dataIndex: 'subject',
+      key: 'subject',
+      width: 140,
+      render: (text) => text || '-',
     },
     {
       title: 'Description',
@@ -265,6 +277,13 @@ const Documents = () => {
           </div>
         </div>
       ),
+    },
+    {
+      title: 'Subject',
+      dataIndex: 'subject',
+      key: 'subject',
+      width: 140,
+      render: (text) => text || '-',
     },
     {
       title: 'Description',
@@ -398,6 +417,21 @@ const Documents = () => {
             rules={[{ required: true, message: 'Please enter a title' }]}
           >
             <Input placeholder="Document title" />
+          </Form.Item>
+
+          <Form.Item
+            name="subject"
+            label="Subject"
+            rules={[{ required: true, message: 'Please select a subject' }]}
+          >
+            <Select
+              placeholder="Select subject"
+              options={teacherSubjects.map((s) => ({ label: s, value: s }))}
+              showSearch
+              filterOption={(input, option) =>
+                (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
+              }
+            />
           </Form.Item>
 
           <Form.Item name="description" label="Description">

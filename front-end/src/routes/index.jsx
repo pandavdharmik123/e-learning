@@ -10,6 +10,7 @@ import ClassManagement from '@pages/Classes';
 import AdminUsersPage from '@pages/Users';
 import Documents from '@pages/Documents';
 import AdminPayments from '@pages/AdminPayments';
+import AdminSubjects from '@pages/AdminSubjects';
 import UserPayments from '@pages/UserPayments';
 import TeacherPayments from '@pages/TeacherPayments';
 
@@ -27,6 +28,7 @@ export const privateRoutes = [
   { path: "/dashboard/classes", element: <ClassManagement /> },
   { path: "/dashboard/documents", element: <Documents /> },
   { path: "/dashboard/users", element: <AdminUsersPage /> },
+  { path: "/dashboard/admin/subjects", element: <AdminSubjects /> },
   { path: "/dashboard/payments", element: <UserPayments /> },
   { path: "/dashboard/teacher/payments", element: <TeacherPayments /> },
   { path: "/dashboard/admin/payments", element: <AdminPayments /> },

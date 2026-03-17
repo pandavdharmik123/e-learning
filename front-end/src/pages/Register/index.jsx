@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   UserOutlined,
   BookOutlined,
@@ -16,9 +16,9 @@ import {
   notification,
 } from 'antd';
 import "./register.scss";
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { register } from '@store/authSlice.js';
-import { SUBJECTS } from '@constants/subjects';
+import { fetchSubjects } from '@store/subjectSlice';
 
 const { Option } = Select;
 
@@ -29,15 +29,17 @@ const RegistrationPage = () => {
   const [form] = Form.useForm();
 
   const dispatch = useDispatch();
+  const { list: subjects } = useSelector((state) => state.subjects);
+
+  useEffect(() => {
+    dispatch(fetchSubjects());
+  }, [dispatch]);
 
   const nextStep = () => setCurrentStep(currentStep + 1);
   const prevStep = () => setCurrentStep(currentStep - 1);
 
   const handleFinish = (values) => {
     const payload = { ...formData, ...values };
-    if(values.hourly_rate) {
-      payload.hourly_rate = Number(values.hourly_rate);
-    }
     if(values.monthly_rate) {
       payload.monthly_rate = Number(values.monthly_rate);
     }
@@ -78,7 +80,7 @@ const RegistrationPage = () => {
                   <Select placeholder="Select role" onChange={setRole}>
                     <Option value="student">Student</Option>
                     <Option value="teacher">Teacher</Option>
-                    <Option value="admin">Admin</Option>
+                    {/* <Option value="admin">Admin</Option> */}
                   </Select>
                 </Form.Item>
               </Col>
@@ -187,9 +189,9 @@ const RegistrationPage = () => {
                       rules={[{ required: true }]}
                     >
                       <Select mode="multiple" placeholder="Select subjects">
-                        {SUBJECTS.map(subject => (
-                          <Option key={subject} value={subject}>
-                            {subject}
+                        {subjects.map((s) => (
+                          <Option key={s.subject_id} value={s.name}>
+                            {s.name}
                           </Option>
                         ))}
                       </Select>
@@ -214,16 +216,6 @@ const RegistrationPage = () => {
                 </Row>
 
                 <Row gutter={16}>
-                  <Col span={12}>
-                    <Form.Item
-                      type={'number'}
-                      label="Hourly Rate"
-                      name="hourly_rate"
-                      rules={[{ required: true }]}
-                    >
-                      <Input type={'number'} placeholder="Hourly Rate" />
-                    </Form.Item>
-                  </Col>
                   <Col span={12}>
                     <Form.Item type={'number'} label="Monthly Rate" name="monthly_rate" rules={[{ required: true }]}>
                       <Input type={'number'}  placeholder="Monthly Rate" />
@@ -255,9 +247,9 @@ const RegistrationPage = () => {
                       name="subjects_interested"
                     >
                       <Select mode="multiple" placeholder="Select interested subjects">
-                        {SUBJECTS.map(subject => (
-                          <Option key={subject} value={subject}>
-                            {subject}
+                        {subjects.map((s) => (
+                          <Option key={s.subject_id} value={s.name}>
+                            {s.name}
                           </Option>
                         ))}
                       </Select>
@@ -304,7 +296,6 @@ const RegistrationPage = () => {
                 <p><strong>Subjects:</strong> {formData.subjects?.join(", ")}</p>
                 <p><strong>Education:</strong> {formData.qualifications}</p>
                 <p><strong>University:</strong> {formData.university}</p>
-                <p><strong>Hourly Rate:</strong> {formData.hourly_rate}</p>
                 <p><strong>Monthly Rate:</strong> {formData.monthly_rate}</p>
               </>
             )}

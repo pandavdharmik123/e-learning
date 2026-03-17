@@ -16,7 +16,7 @@ import {
 import '../ExploreTeachers/exploreTeacher.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import { isEmpty } from 'lodash/lang.js';
-import { SUBJECTS, normalizeSubject } from '@constants/subjects';
+import { fetchSubjects } from '@store/subjectSlice';
 import {
   dismissTeacher,
   fetchHiredTeachers,
@@ -34,7 +34,6 @@ const HiredTeachers = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedSubject, setSelectedSubject] = useState('all');
   const [selectedLanguage, setSelectedLanguage] = useState('all');
-  const [priceRange, setPriceRange] = useState('all');
   const [hiringLoading, setHiringLoading] = useState({});
 
   const { hiredTeachers, loading } = useSelector((state) => state.students);
@@ -42,9 +41,15 @@ const HiredTeachers = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const { list: subjects } = useSelector((state) => state.subjects);
+
+  useEffect(() => {
+    dispatch(fetchSubjects());
+  }, [dispatch]);
+
   useEffect(() => {
     dispatch(fetchHiredTeachers());
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     if(!isEmpty(hiredTeachers)) {
@@ -68,11 +73,8 @@ const HiredTeachers = () => {
     }
 
     if (selectedSubject !== 'all') {
-      const normalizedSelected = normalizeSubject(selectedSubject);
       filtered = filtered.filter(teacher =>
-        teacher.subjects && teacher.subjects.some(subj => 
-          normalizeSubject(subj) === normalizedSelected
-        )
+        teacher.subjects && teacher.subjects.includes(selectedSubject)
       );
     }
 
@@ -82,24 +84,8 @@ const HiredTeachers = () => {
       );
     }
 
-    if (priceRange !== 'all') {
-      filtered = filtered.filter(teacher => {
-        const rate = teacher.hourly_rate;
-        switch (priceRange) {
-          case 'budget':
-            return rate <= 30;
-          case 'moderate':
-            return rate > 30 && rate <= 50;
-          case 'premium':
-            return rate > 50;
-          default:
-            return true;
-        }
-      });
-    }
-
     setFilteredTeachers(filtered);
-  }, [searchTerm, selectedSubject, selectedLanguage, priceRange, teachers]);
+  }, [searchTerm, selectedSubject, selectedLanguage, teachers]);
 
 
   const handleHireTeacher = async (teacherId) => {
@@ -180,9 +166,9 @@ const HiredTeachers = () => {
                   placeholder="Subject"
                 >
                   <Option value="all">All Subjects</Option>
-                  {SUBJECTS.map(subject => (
-                    <Option key={subject} value={subject}>
-                      {subject}
+                  {subjects.map((s) => (
+                    <Option key={s.subject_id} value={s.name}>
+                      {s.name}
                     </Option>
                   ))}
                 </Select>
@@ -199,19 +185,6 @@ const HiredTeachers = () => {
                   <Option value="Spanish">Spanish</Option>
                   <Option value="French">French</Option>
                   <Option value="Mandarin">Mandarin</Option>
-                </Select>
-              </Col>
-              <Col xs={12} sm={6} md={4}>
-                <Select
-                  value={priceRange}
-                  onChange={setPriceRange}
-                  className="filter-select"
-                  placeholder="Price Range"
-                >
-                  <Option value="all">All Prices</Option>
-                  <Option value="budget">Budget (≤₹30/hr)</Option>
-                  <Option value="moderate">Moderate (₹30-50/hr)</Option>
-                  <Option value="premium">{'Premium (>₹50/hr)'}</Option>
                 </Select>
               </Col>
             </Row>

@@ -1,0 +1,24 @@
+@import '../../styles/variables';
+
+.admin-subjects-page {
+  @include page-container;
+
+  .page-header {
+    @include flex-between;
+    margin-bottom: $sp-6;
+
+    .page-title {
+      @include page-title;
+      margin-bottom: $sp-1;
+    }
+  }
+
+  .filters-section {
+    margin-bottom: $sp-4;
+  }
+
+  .table-container {
+    @include card;
+    overflow: hidden;
+  }
+}

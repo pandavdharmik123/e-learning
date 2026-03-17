@@ -15,6 +15,7 @@ import './teacherStudents.scss';
 import StudentCard from '@components/StudentCard';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchTeacherStudents } from '@store/teacherSlice';
+import { fetchSubjects } from '@store/subjectSlice';
 import _ from 'lodash';
 import { isEmpty } from 'lodash/lang.js';
 import EmptyStudentsState from '@pages/TeacherStudents/EmptyStudentsState.jsx';
@@ -27,24 +28,21 @@ const TeacherStudents = () => {
   const [filteredStudents, setFilteredStudents] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedSubject, setSelectedSubject] = useState('');
-  const [subjects, setSubjects] = useState([]);
 
-  const { students: storeStudents } = useSelector(state => state.teachers);
+  const { students: storeStudents } = useSelector((state) => state.teachers);
+  const { list: subjects } = useSelector((state) => state.subjects);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(fetchTeacherStudents());
-  }, []);
+    dispatch(fetchSubjects());
+  }, [dispatch]);
 
   useEffect(() => {
-    if(!_.isEmpty(storeStudents)) {
-      const subjects = _.uniq(storeStudents.reduce((acc, student) => {
-        return [...acc, ...(student?.subjects_interested || [])]
-      } , []));
+    if (!_.isEmpty(storeStudents)) {
       setStudents(storeStudents);
       setFilteredStudents(storeStudents);
-      setSubjects(subjects);
     }
   }, [storeStudents]);
 
@@ -66,12 +64,10 @@ const TeacherStudents = () => {
       return;
     }
     const filtered = students.filter(student =>
-      student?.subjects_interested?.some(subj => 
-        subj.toLowerCase().replace(/\s+/g, '_') === subject.toLowerCase().replace(/\s+/g, '_')
-      )
+      student?.subjects_interested?.includes(subject)
     );
     setFilteredStudents(filtered);
-  }
+  };
 
   return (
     <div className="student-management-page">
@@ -87,15 +83,15 @@ const TeacherStudents = () => {
           />
 
           <Select
-            defaultValue={selectedSubject}
             value={selectedSubject}
             suffixIcon={<FilterOutlined />}
             className="subject-filter"
             onChange={handleSelectSubject}
-            labelRender={(props) => _.capitalize(props.value)}
+            placeholder="Filter by subject"
+            allowClear
           >
-            {subjects.map(subject => (
-              <Option key={subject} value={subject}>{_.capitalize(subject)}</Option>
+            {subjects.map((s) => (
+              <Option key={s.subject_id} value={s.name}>{s.name}</Option>
             ))}
           </Select>
 

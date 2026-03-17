@@ -28,7 +28,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchMe, updateProfile } from '@store/authSlice.js';
 import _ from 'lodash';
 import { getRoleColor } from '@utils/commonFunctions.jsx';
-import { SUBJECTS } from '@constants/subjects';
+import { fetchSubjects } from '@store/subjectSlice';
 import RoleTag from '@components/RoleTag/index.jsx';
 
 const { Option } = Select;
@@ -41,10 +41,15 @@ const ProfilePage = () => {
 
   const dispatch = useDispatch();
   const { profile, loading } = useSelector((state) => state.auth);
+  const { list: subjects } = useSelector((state) => state.subjects);
 
   useEffect(() => {
     dispatch(fetchMe());
-  }, []);
+  }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(fetchSubjects());
+  }, [dispatch]);
 
   useEffect(() => {
     if (!_.isEmpty(profile)) {
@@ -61,7 +66,6 @@ const ProfilePage = () => {
     const payload = {
       ...userProfile,
       ...values,
-      hourly_rate: values.hourly_rate ? Number(values.hourly_rate) : userProfile?.hourly_rate,
       monthly_rate: values.monthly_rate ? Number(values.monthly_rate) : userProfile?.monthly_rate,
     }
     setUserProfile(payload);
@@ -212,9 +216,9 @@ const ProfilePage = () => {
                     {isEditing ? (
                       <Form.Item name="subjects" label="Subjects">
                         <Select mode="multiple" placeholder="Select subjects">
-                          {SUBJECTS.map(subject => (
-                            <Option key={subject} value={subject}>
-                              {subject}
+                          {subjects.map((s) => (
+                            <Option key={s.subject_id} value={s.name}>
+                              {s.name}
                             </Option>
                           ))}
                         </Select>
@@ -254,11 +258,6 @@ const ProfilePage = () => {
                     {isEditing ? (
                       <Row gutter={16}>
                         <Col span={12}>
-                          <Form.Item name="hourly_rate" label="Hourly Rate">
-                            <Input type="number" />
-                          </Form.Item>
-                        </Col>
-                        <Col span={12}>
                           <Form.Item name="monthly_rate" label="Monthly Rate">
                             <Input type="number" />
                           </Form.Item>
@@ -267,13 +266,6 @@ const ProfilePage = () => {
                     ) : (
                       <>
                         <div className="pricing-section">
-                          <div className="price-item">
-                            <WalletOutlined className="price-icon" />
-                            <div className="price-details">
-                              <span className="price-label">Hourly</span>
-                              <span className="price-value">₹{userProfile?.hourly_rate}</span>
-                            </div>
-                          </div>
                           <div className="price-item">
                             <WalletOutlined className="price-icon" />
                             <div className="price-details">
@@ -316,9 +308,9 @@ const ProfilePage = () => {
                     {isEditing ? (
                       <Form.Item name="subjects_interested" label="Subjects Interested">
                         <Select mode="multiple" placeholder="Select interested subjects">
-                          {SUBJECTS.map(subject => (
-                            <Option key={subject} value={subject}>
-                              {subject}
+                          {subjects.map((s) => (
+                            <Option key={s.subject_id} value={s.name}>
+                              {s.name}
                             </Option>
                           ))}
                         </Select>

@@ -24,8 +24,19 @@ const upload = multer({
   limits: { fileSize: 50 * 1024 * 1024 }
 });
 
-const DocumentDto = z.object({
+const DocumentCreateDto = z.object({
   title: z.string().min(1),
+  subject: z.string().min(1),
+  description: z.string().optional(),
+  student_ids: z.preprocess(
+    (v) => (typeof v === 'string' ? JSON.parse(v) : v),
+    z.array(z.number()).optional()
+  ),
+});
+
+const DocumentUpdateDto = z.object({
+  title: z.string().min(1),
+  subject: z.string().min(1).optional(),
   description: z.string().optional(),
   student_ids: z.preprocess(
     (v) => (typeof v === 'string' ? JSON.parse(v) : v),
@@ -43,17 +54,23 @@ router.post('/documents', authMiddleware, upload.single('file'), async (req, res
       return res.status(400).json({ error: 'File is required' });
     }
 
-    const parsed = DocumentDto.safeParse(req.body);
+    const parsed = DocumentCreateDto.safeParse(req.body);
     if (!parsed.success) return res.status(400).json(parsed.error);
 
     const teacher = await prisma.teacher.findUnique({ where: { teacher_id: req.user.id } });
     if (!teacher) return res.status(400).json({ error: 'Create teacher profile first' });
+
+    const teacherSubjects = Array.isArray(teacher.subjects) ? teacher.subjects : [];
+    if (!teacherSubjects.includes(parsed.data.subject)) {
+      return res.status(400).json({ error: 'Subject must be one of your teaching subjects' });
+    }
 
     const url = s3PublicUrl(bucket, req.file.key);
 
     const doc = await prisma.document.create({
       data: {
         teacher_id: req.user.id,
+        subject: parsed.data.subject,
         title: parsed.data.title,
         description: parsed.data.description,
         file_url: url,
@@ -82,6 +99,14 @@ router.get('/documents', authMiddleware, async (req, res) => {
     }
 
     if (req.user.role === 'student') {
+      const student = await prisma.student.findUnique({
+        where: { student_id: req.user.id },
+        select: { subjects_interested: true },
+      });
+      const studentSubjects = Array.isArray(student?.subjects_interested)
+        ? student.subjects_interested
+        : [];
+
       const allDocs = await prisma.document.findMany({
         orderBy: { created_at: 'desc' },
         include: {
@@ -92,6 +117,9 @@ router.get('/documents', authMiddleware, async (req, res) => {
       });
 
       const accessible = allDocs.filter((doc) => {
+        if (studentSubjects.length === 0 || !doc.subject || !studentSubjects.includes(doc.subject)) {
+          return false;
+        }
         const ids = Array.isArray(doc.student_ids) ? doc.student_ids : [];
         if (ids.length > 0) return ids.includes(req.user.id);
         const hired = Array.isArray(doc.teacher?.hired_by_students) ? doc.teacher.hired_by_students : [];
@@ -124,6 +152,14 @@ router.get('/documents/:id', authMiddleware, async (req, res) => {
     if (!doc) return res.status(404).json({ error: 'Not found' });
 
     if (req.user.role === 'student') {
+      const student = await prisma.student.findUnique({
+        where: { student_id: req.user.id },
+        select: { subjects_interested: true },
+      });
+      const studentSubjects = Array.isArray(student?.subjects_interested) ? student.subjects_interested : [];
+      if (studentSubjects.length === 0 || !doc.subject || !studentSubjects.includes(doc.subject)) {
+        return res.status(403).json({ error: 'Forbidden' });
+      }
       const ids = Array.isArray(doc.student_ids) ? doc.student_ids : [];
       const hired = Array.isArray(doc.teacher?.hired_by_students) ? doc.teacher.hired_by_students : [];
       const hasAccess = ids.length > 0 ? ids.includes(req.user.id) : hired.includes(req.user.id);
@@ -155,7 +191,7 @@ router.put('/documents/:id', authMiddleware, upload.single('file'), async (req, 
     if (!existing) return res.status(404).json({ error: 'Not found' });
     if (existing.teacher_id !== req.user.id) return res.status(403).json({ error: 'Forbidden' });
 
-    const parsed = DocumentDto.safeParse(req.body);
+    const parsed = DocumentUpdateDto.safeParse(req.body);
     if (!parsed.success) return res.status(400).json(parsed.error);
 
     const updateData = {
@@ -163,6 +199,15 @@ router.put('/documents/:id', authMiddleware, upload.single('file'), async (req, 
       description: parsed.data.description,
       student_ids: parsed.data.student_ids ?? existing.student_ids,
     };
+
+    if (parsed.data.subject !== undefined) {
+      const teacher = await prisma.teacher.findUnique({ where: { teacher_id: req.user.id } });
+      const teacherSubjects = Array.isArray(teacher?.subjects) ? teacher.subjects : [];
+      if (!teacherSubjects.includes(parsed.data.subject)) {
+        return res.status(400).json({ error: 'Subject must be one of your teaching subjects' });
+      }
+      updateData.subject = parsed.data.subject;
+    }
 
     if (req.file) {
       updateData.file_url = s3PublicUrl(bucket, req.file.key);
@@ -213,6 +258,14 @@ router.get('/documents/:id/url', authMiddleware, async (req, res) => {
     }
 
     if (req.user.role === 'student') {
+      const student = await prisma.student.findUnique({
+        where: { student_id: req.user.id },
+        select: { subjects_interested: true },
+      });
+      const studentSubjects = Array.isArray(student?.subjects_interested) ? student.subjects_interested : [];
+      if (studentSubjects.length === 0 || !doc.subject || !studentSubjects.includes(doc.subject)) {
+        return res.status(403).json({ error: 'Forbidden' });
+      }
       const ids = Array.isArray(doc.student_ids) ? doc.student_ids : [];
       const hired = Array.isArray(doc.teacher?.hired_by_students) ? doc.teacher.hired_by_students : [];
       const hasAccess = ids.length > 0 ? ids.includes(req.user.id) : hired.includes(req.user.id);

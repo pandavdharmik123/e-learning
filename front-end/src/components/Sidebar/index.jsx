@@ -28,6 +28,7 @@ export default function Sidebar() {
     { key: "/dashboard/students", icon: <TeamOutlined />, label: "Students", role:['teacher'] },
     { key: "/dashboard/teachers", icon: <TeamOutlined />, label: "Teachers", role:['student'] },
     { key: "/dashboard/users", icon: <TeamOutlined />, label: "Users", role:['admin'] },
+    { key: "/dashboard/admin/subjects", icon: <BookOutlined />, label: "Subjects", role:['admin'] },
     { key: "/dashboard/admin/payments", icon: <WalletOutlined />, label: "Payments", role:['admin'] },
     // { key: "/dashboard/books", icon: <BookOutlined />, label: "Books" },
     // { key: "/dashboard/materials", icon: <FileTextOutlined />, label: "Materials" },

@@ -167,7 +167,7 @@ const PaymentModal = ({ visible, onCancel, teacher, onSuccess }) => {
               </Text>
             ) : (
               <Text type="secondary" style={{ fontSize: '12px' }}>
-                Based on hourly rate (₹{teacher?.hourly_rate}/hr × 30 days)
+                Monthly amount
               </Text>
             )}
           </div>

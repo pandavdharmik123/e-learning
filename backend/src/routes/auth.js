@@ -2,9 +2,19 @@ import express from 'express';
 import { prisma } from '../lib/prisma.js';
 import { z } from 'zod';
 import bcrypt from 'bcryptjs';
-import {authMiddleware, signToken} from '../lib/auth.js';
+import { authMiddleware, signToken } from '../lib/auth.js';
 
 const router = express.Router();
+
+async function validateSubjects(names) {
+  if (!names || !Array.isArray(names) || names.length === 0) return [];
+  const valid = await prisma.subject.findMany({
+    where: { name: { in: names.map((n) => String(n).trim()).filter(Boolean) } },
+    select: { name: true },
+  });
+  const validNames = new Set(valid.map((s) => s.name));
+  return names.filter((n) => validNames.has(String(n).trim()));
+}
 
 const RegisterDto = z.object({
     email: z.string().email(),
@@ -56,6 +66,15 @@ router.post('/register', async (req, res) => {
         const exists = await prisma.user.findUnique({ where: { email } });
         if (exists) return res.status(409).json({ error: 'Email already in use' });
 
+        let validatedSubjects = [];
+        let validatedSubjectsInterested = [];
+        if (role === 'teacher' && subjects?.length) {
+          validatedSubjects = await validateSubjects(subjects);
+        }
+        if (role === 'student' && subjects_interested?.length) {
+          validatedSubjectsInterested = await validateSubjects(subjects_interested);
+        }
+
         const password_hash = await bcrypt.hash(password, 10);
 
         const user = await prisma.user.create({
@@ -73,7 +92,7 @@ router.post('/register', async (req, res) => {
             await prisma.teacher.create({
                 data: {
                     teacher_id: user.user_id,
-                    subjects: subjects ?? [],
+                    subjects: validatedSubjects.length ? validatedSubjects : (subjects ?? []),
                     language: language ?? [],
                     qualifications,
                     experience_years,
@@ -89,7 +108,7 @@ router.post('/register', async (req, res) => {
             data: {
               student_id: user.user_id,
               grade_level,
-              subjects_interested,
+              subjects_interested: validatedSubjectsInterested.length ? validatedSubjectsInterested : (subjects_interested ?? []),
               learning_goals,
               parent_contact,
             },
@@ -128,6 +147,15 @@ router.put('/profile', authMiddleware, async (req, res) => {
             parent_contact,
         } = req.body;
 
+        let validatedSubjects = subjects;
+        let validatedSubjectsInterested = subjects_interested;
+        if (req.user.role === 'teacher' && subjects?.length) {
+          validatedSubjects = await validateSubjects(subjects);
+        }
+        if (req.user.role === 'student' && subjects_interested?.length) {
+          validatedSubjectsInterested = await validateSubjects(subjects_interested);
+        }
+
         await prisma.user.update({
             where: { user_id: req.user.id },
             data: {
@@ -142,7 +170,7 @@ router.put('/profile', authMiddleware, async (req, res) => {
             await prisma.teacher.update({
                 where: { teacher_id: req.user.id },
                 data: {
-                    subjects: subjects ?? undefined,
+                    subjects: validatedSubjects ?? undefined,
                     language: language ?? undefined,
                     qualifications,
                     experience_years,
@@ -158,7 +186,7 @@ router.put('/profile', authMiddleware, async (req, res) => {
                 where: { student_id: req.user.id },
                 data: {
                     grade_level,
-                    subjects_interested,
+                    subjects_interested: validatedSubjectsInterested ?? undefined,
                     learning_goals,
                     parent_contact,
                 },

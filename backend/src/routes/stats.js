@@ -21,18 +21,14 @@ router.get('/stats/public', async (req, res) => {
       prisma.payment.count({ where: { status: 'SUCCESS' } }),
     ]);
 
-    // Count unique subjects from teachers
-    const teachers = await prisma.teacher.findMany({
-      select: { subjects: true },
-    });
-    
-    const allSubjects = new Set();
-    teachers.forEach((teacher) => {
-      if (teacher.subjects && Array.isArray(teacher.subjects)) {
-        teacher.subjects.forEach((subject) => allSubjects.add(subject));
-      }
-    });
-    const totalSubjects = allSubjects.size || totalClasses; // Fallback to classes count if no subjects
+    // Count subjects from Subject table
+    let totalSubjects = 0;
+    try {
+      totalSubjects = await prisma.subject.count();
+    } catch (err) {
+      console.warn('Subject table not found, using fallback');
+      totalSubjects = totalClasses;
+    }
 
     // Calculate success rate
     const successRate = totalPayments > 0 

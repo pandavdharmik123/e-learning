@@ -13,6 +13,18 @@ export const fetchTeachers = createAsyncThunk(
   }
 );
 
+export const fetchExploreTeachers = createAsyncThunk(
+  "teachers/fetchExplore",
+  async (_, { rejectWithValue }) => {
+    try {
+      const res = await api.get("/student/explore/teachers");
+      return { teachers: res.data.teachers, studentSubjects: res.data.studentSubjects || [] };
+    } catch (err) {
+      return rejectWithValue(err.response?.data?.error || err.message);
+    }
+  }
+);
+
 export const fetchTeacherStudents = createAsyncThunk(
   "teacher/fetchTeacherStudents",
   async (_, { rejectWithValue }) => {
@@ -41,6 +53,7 @@ const teacherSlice = createSlice({
   name: "teachers",
   initialState: {
     teachers: [],
+    studentSubjects: [],
     students: [],
     payments: [],
     paymentSummary: null,
@@ -59,6 +72,19 @@ const teacherSlice = createSlice({
         state.teachers = action.payload;
       })
       .addCase(fetchTeachers.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      .addCase(fetchExploreTeachers.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchExploreTeachers.fulfilled, (state, action) => {
+        state.loading = false;
+        state.teachers = action.payload.teachers;
+        state.studentSubjects = action.payload.studentSubjects;
+      })
+      .addCase(fetchExploreTeachers.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       })
