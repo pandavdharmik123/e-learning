@@ -10,6 +10,7 @@ const { Text, Title } = Typography;
 const PaymentModal = ({ visible, onCancel, teacher, onSuccess }) => {
   const dispatch = useDispatch();
   const { order, loading, error } = useSelector((state) => state.payment);
+  const { user } = useSelector((state) => state.auth);
   const [razorpayLoaded, setRazorpayLoaded] = useState(false);
 
   useEffect(() => {
@@ -26,16 +27,20 @@ const PaymentModal = ({ visible, onCancel, teacher, onSuccess }) => {
   }, []);
 
   useEffect(() => {
-    if (visible && teacher && !order) {
-      // Calculate amount (using monthly_rate or hourly_rate * 30)
-      const amount = teacher.monthly_rate 
-        ? Number(teacher.monthly_rate) 
-        : (Number(teacher.hourly_rate) * 30);
-      
-      dispatch(createPaymentOrder({ 
-        teacherId: teacher.teacher_id, 
-        amount 
-      }));
+    if (!visible) {
+      dispatch(clearOrder());
+      return;
+    }
+    if (teacher && !order) {
+      const amount = teacher.monthly_rate
+        ? Number(teacher.monthly_rate)
+        : (Number(teacher.hourly_rate) || 0) * 30;
+      if (amount > 0) {
+        dispatch(createPaymentOrder({
+          teacherId: teacher.teacher_id,
+          amount,
+        }));
+      }
     }
   }, [visible, teacher]);
 
@@ -51,13 +56,32 @@ const PaymentModal = ({ visible, onCancel, teacher, onSuccess }) => {
       return;
     }
 
+    const amountPaise = Math.round(Number(order.amount) * 100);
+    if (amountPaise <= 0) {
+      message.error('Invalid payment amount. Please try again.');
+      return;
+    }
+
+    const payerName = [user?.first_name, user?.last_name].filter(Boolean).join(' ').trim() || 'Student';
+    const payerEmail = (user?.email || '').trim();
+    const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(payerEmail);
+
+    if (!isValidEmail || !payerEmail) {
+      message.error('Please add a valid email to your profile before making a payment.');
+      return;
+    }
+
     const options = {
       key: order.razorpayKey,
-      amount: Math.round(order.amount * 100), // Convert to paise
-      currency: order.currency,
+      amount: amountPaise,
+      currency: order.currency || 'INR',
       order_id: order.orderId,
       name: 'E-Learning Platform',
       description: `Hire ${teacher?.user?.first_name} ${teacher?.user?.last_name}`,
+      prefill: {
+        name: payerName,
+        email: payerEmail,
+      },
       handler: async function (response) {
         try {
           const result = await dispatch(
@@ -82,19 +106,18 @@ const PaymentModal = ({ visible, onCancel, teacher, onSuccess }) => {
           message.error(err || 'Payment verification failed');
         }
       },
-      prefill: {
-        name: `${teacher?.user?.first_name} ${teacher?.user?.last_name}`,
-        email: teacher?.user?.email || '',
-      },
       theme: {
         color: '#6366f1',
       },
       modal: {
         ondismiss: () => {
           message.info('Payment cancelled');
+          dispatch(clearOrder());
         },
       },
     };
+
+    console.log(options);
 
     const razorpay = new window.Razorpay(options);
     razorpay.on('payment.failed', function (response) {
@@ -106,7 +129,7 @@ const PaymentModal = ({ visible, onCancel, teacher, onSuccess }) => {
   const amount = teacher
     ? teacher.monthly_rate
       ? Number(teacher.monthly_rate)
-      : Number(teacher.hourly_rate) * 30
+      : (Number(teacher.hourly_rate) || 0) * 30
     : 0;
 
   return (
@@ -118,7 +141,10 @@ const PaymentModal = ({ visible, onCancel, teacher, onSuccess }) => {
       </div>
     }
       open={visible}
-      onCancel={onCancel}
+      onCancel={() => {
+        dispatch(clearOrder());
+        onCancel?.();
+      }}
       footer={[
         <Button key="cancel" onClick={onCancel}>
           Cancel

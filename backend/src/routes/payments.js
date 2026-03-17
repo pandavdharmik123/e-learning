@@ -79,12 +79,14 @@ router.post('/payment/create-order', authMiddleware, requireStudent, async (req,
       return res.status(409).json({ error: 'Teacher already hired by you' });
     }
 
-    // Check for existing pending payment
+    // Check for existing pending payment (only reuse if created within last 10 mins - Razorpay orders expire ~15-30 mins)
+    const tenMinutesAgo = new Date(Date.now() - 10 * 60 * 1000);
     const existingPayment = await prisma.payment.findFirst({
       where: {
         user_id: userId,
         teacher_id: teacherId,
         status: 'PENDING',
+        created_at: { gte: tenMinutesAgo },
       },
       orderBy: { created_at: 'desc' },
     });
