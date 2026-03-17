@@ -220,11 +220,11 @@ const Documents = () => {
       ),
     },
     {
-      title: 'Uploaded',
+      title: 'Created',
       dataIndex: 'created_at',
       key: 'created_at',
-      width: 140,
-      render: (date) => formatDate(date),
+      width: 160,
+      render: (date) => date ? formatDateTime(date) : '-',
     },
     {
       title: 'Actions',
@@ -302,11 +302,11 @@ const Documents = () => {
       },
     },
     {
-      title: 'Uploaded',
+      title: 'Created',
       dataIndex: 'created_at',
       key: 'created_at',
-      width: 140,
-      render: (date) => formatDate(date),
+      width: 160,
+      render: (date) => date ? formatDateTime(date) : '-',
     },
     {
       title: 'Download',
